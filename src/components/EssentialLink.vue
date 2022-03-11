@@ -1,9 +1,8 @@
 <template>
   <q-item
     clickable
-    tag="a"
-    target="_blank"
-    :href="link"
+    :to="to"
+    class="text-primary"
   >
     <q-item-section
       v-if="icon"
@@ -13,10 +12,7 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
-      <q-item-label caption>
-        {{ caption }}
-      </q-item-label>
+      <q-item-label style="font-size: 20px; font-weight: 600;">{{ title }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>
@@ -35,7 +31,7 @@ export default {
       default: ''
     },
 
-    link: {
+    to: {
       type: String,
       default: '#'
     },
