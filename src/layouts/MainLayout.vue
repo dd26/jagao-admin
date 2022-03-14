@@ -107,7 +107,7 @@ const linksData = [
   {
     title: 'Services',
     icon: 'img:vectors/clean2.svg',
-    link: '/home'
+    link: '/services'
   },
   {
     title: 'Customers',

@@ -90,7 +90,7 @@ export default {
   box-shadow: inset 20px 0 0  rgb(255, 255, 255);
   border-radius: 100% 0 0 100%;
   width: 150%;
-  height: 130vh;
+  height: 140vh;
   top: -140px;
   left: 0;
 }

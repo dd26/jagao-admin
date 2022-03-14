@@ -1,7 +1,8 @@
 <template>
   <q-item
     clickable
-    :to="to"
+    :to="link"
+    v-ripple
     class="text-primary"
   >
     <q-item-section
@@ -31,9 +32,9 @@ export default {
       default: ''
     },
 
-    to: {
+    link: {
       type: String,
-      default: '#'
+      default: ''
     },
 
     icon: {
