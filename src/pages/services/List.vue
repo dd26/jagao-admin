@@ -9,13 +9,18 @@
         @newRegister="newRegister"
       />
     </div>
+
+    <q-dialog v-model="newDlg">
+      <NewService />
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import Listable from 'src/components/Listable.vue'
+import NewService from 'src/components/services/Form.vue'
 export default {
-  components: { Listable },
+  components: { Listable, NewService },
   data () {
     return {
       title: 'Services',
@@ -30,17 +35,18 @@ export default {
         { name: 'price', label: 'Price', field: 'price', align: 'left' },
         { name: 'category', label: 'Category', field: 'category', align: 'center', category: true },
         { name: 'actions', label: '', field: 'actions' }
-      ]
+      ],
+      newDlg: false
     }
   },
   methods: {
     newRegister () {
       console.log('newnewRegister')
+      this.newDlg = true
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped lang="scss">
 </style>

@@ -27,7 +27,6 @@
         hide-pagination
         dense
         :selection="selectedItem ? 'single' : 'none'"
-        :separator="true"
         :selected.sync="selected"
       >
 
@@ -114,6 +113,47 @@
       />
     </div>
     </q-card-section>
+
+    <q-dialog v-model="deleteDlg">
+      <q-card class="row justify-center q-pa-xl">
+        <div class="row justify-center col-12">
+          <div class="q-pa-sm" style="border-radius: 50%; background-color: #D16A6A;">
+            <q-icon name="img:vectors/trash2.svg" size="md" />
+          </div>
+        </div>
+
+        <div class="row col-12 text-center justify-center" style="font-size: 28px; font-weight: 700;">
+          Are you sure?
+        </div>
+
+        <div class="row col-12 text-center justify-center">
+          Lorem ipsum dolor sit amet
+        </div>
+
+        <div class="row justify-around col-12 q-pt-md">
+          <div class="col-5">
+            <q-btn
+              color="grey-5"
+              label="Cancel"
+              rounded
+              v-close-popup
+              no-caps
+              class="full-width"
+            />
+          </div>
+          <div class="col-5">
+            <q-btn
+              style="background-color: #D16A6A; color: white"
+              label="Delete"
+              rounded
+              no-caps
+              class="full-width"
+              @click="confirmDelete"
+            />
+          </div>
+        </div>
+      </q-card>
+    </q-dialog>
   </q-card>
 </template>
 
@@ -166,15 +206,17 @@ export default {
       data: [],
       selected: [],
       visibleColumns: [],
-      columnsView: []
+      columnsView: [],
+      deleteId: null,
+      deleteDlg: false
     }
   },
   async mounted () {
     await this.getRecord()
     this.data = [
-      { _id: '2', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative' }] },
-      { _id: '3', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative' }] },
-      { _id: '1', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative' }] }
+      { _id: '2', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
+      { _id: '3', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
+      { _id: '1', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] }
     ]
   },
   methods: {
@@ -198,7 +240,9 @@ export default {
       }
     },
     delete (id) {
-      this.$q.dialog({
+      this.deleteId = id
+      this.deleteDlg = true
+      /* this.$q.dialog({
         title: '¡Atención!',
         message: '¿Eliminar el registro?',
         cancel: {
@@ -216,9 +260,11 @@ export default {
         // console.log('>>>> Cancel')
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
-      })
+      }) */
     },
     async confirmDelete (id) {
+      this.deleteDlg = false
+      id = this.deleteId
       this.$q.loading.show()
       await this.$api.delete(this.apiroute + '/' + id).then(res => {
         this.$q.loading.hide()
