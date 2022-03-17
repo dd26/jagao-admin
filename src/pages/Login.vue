@@ -37,7 +37,7 @@
         </q-input>
 
         <q-btn
-          to="/home"
+          @click="signIn"
           class="col-12 q-mt-sm q-py-xs"
           color="primary"
           label="SIGN IN"
@@ -58,6 +58,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -75,6 +76,22 @@ export default {
           required
         }
       }
+    }
+  },
+  methods: {
+    ...mapMutations('generals', ['login']),
+    async signIn () {
+      this.$v.form.$touch()
+      if (this.$v.form.$invalid) return
+
+      this.$q.loading.show()
+      await this.$api.post('login', this.form).then(res => {
+        this.$q.loading.hide()
+        if (res) {
+          this.login(res)
+          this.$router.push('/home')
+        }
+      })
     }
   }
 }
