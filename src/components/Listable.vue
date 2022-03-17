@@ -40,7 +40,7 @@
 
         <template v-slot:body-cell="props">
           <q-td :props="props" style="width: auto; max-width: 100px; border-bottom: 1px solid #e0e0e0; height: 60px">
-            <div v-if="props.col.category" style="width:100%" class="row justify-center">
+            <div v-if="props.col.chip" style="width:100%" class="row justify-center">
               <div class="style-chip text-bold row justify-center items-center">
                 {{ props.value }}
               </div>
@@ -59,20 +59,34 @@
         <template v-slot:body-cell-actions="props" v-if="checkIfActions">
           <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
             <div class="row no-wrap q-gutter-x-xs justify-around full-width">
-              <q-btn
-                v-for="n in props.row.actions"
-                :key="n.title"
-                :icon="n.icon"
-                class="text-black"
-                dense
-                flat
-                rounded
-                size="11px"
-                push
-                :to="n.url ? n.url : null"
-                @click="execute(n.action, props.row._id, props.row, n)"
-                :color="n.color ? n.color : 'primary'"
-              />
+              <div v-for="n in props.row.actions" :key="n.title">
+                <div v-if="!n.seeDetails">
+                  <q-btn
+                    :icon="n.icon"
+                    class="text-black"
+                    dense
+                    flat
+                    rounded
+                    size="11px"
+                    push
+                    :to="n.url ? n.url : null"
+                    @click="execute(n.action, props.row._id, props.row, n)"
+                    :color="n.color ? n.color : 'primary'"
+                  />
+                </div>
+                <div v-else>
+                  <q-btn
+                    @click="execute(n.action, props.row._id, props.row, n)"
+                    flat
+                    rounded
+                    dense
+                    color="primary"
+                    size="md"
+                    no-caps
+                    label="see details"
+                  />
+                </div>
+              </div>
             </div>
           </q-td>
         </template>
@@ -193,6 +207,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    dataList: {
+      type: Array,
+      default: null
     }
   },
   data () {
@@ -212,14 +230,20 @@ export default {
     }
   },
   async mounted () {
-    await this.getRecord()
-    this.data = [
-      { _id: '2', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
-      { _id: '3', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
-      { _id: '1', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] }
-    ]
+    if (this.dataList) {
+      this.data = this.dataList
+    } else {
+      this.data = []
+      // await this.getRecord()
+    }
   },
   methods: {
+    seeDetail (id, row) {
+      this.$emit('see-detail', row)
+    },
+    edit (id) {
+      this.$emit('openChangeDlg', id)
+    },
     newRegister () {
       this.$emit('newRegister')
     },
@@ -235,32 +259,12 @@ export default {
     execute (name, id, row, action) {
       console.log(name, 'name', id, 'id', row, 'row', action, 'action')
       if (typeof this[name] === 'function') {
-        console.log('entra aqui')
         this[name](id, row, action)
       }
     },
     delete (id) {
       this.deleteId = id
       this.deleteDlg = true
-      /* this.$q.dialog({
-        title: '¡Atención!',
-        message: '¿Eliminar el registro?',
-        cancel: {
-          label: 'Cancelar',
-          outline: true
-        },
-        persistent: true,
-        ok: {
-          label: 'Eliminar',
-          push: true
-        }
-      }).onOk(() => {
-        this.confirmDelete(id)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
-      }) */
     },
     async confirmDelete (id) {
       this.deleteDlg = false

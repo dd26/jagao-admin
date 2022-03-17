@@ -112,12 +112,12 @@ const linksData = [
   {
     title: 'Customers',
     icon: 'img:vectors/cora1.svg',
-    link: '/home'
+    link: '/customers'
   },
   {
     title: 'Payments',
     icon: 'img:vectors/dollar1.svg',
-    link: '/home'
+    link: '/specialist'
   }
 ]
 

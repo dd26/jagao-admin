@@ -6,6 +6,7 @@
         :apiroute="route"
         :title="title"
         :btnNewObject="btnNewObject"
+        :dataList="dataPrueba"
         @newRegister="newRegister"
       />
     </div>
@@ -33,10 +34,15 @@ export default {
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
         { name: 'service', label: 'Service', field: 'service', align: 'left' },
         { name: 'price', label: 'Price', field: 'price', align: 'left' },
-        { name: 'category', label: 'Category', field: 'category', align: 'center', category: true },
+        { name: 'category', label: 'Category', field: 'category', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
-      newDlg: false
+      newDlg: false,
+      dataPrueba: [
+        { _id: '2', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
+        { _id: '3', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
+        { _id: '1', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] }
+      ]
     }
   },
   methods: {
