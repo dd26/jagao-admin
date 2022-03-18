@@ -47,7 +47,7 @@
             </div>
             <div v-else-if="props.col.avatar">
               <q-avatar size="lg" class="bg-primary">
-                <img src="vectors/pet.png" alt="asd">
+                <img :src="$api_url() + 'image_test/' + props.row.id" alt="asd">
               </q-avatar>
             </div>
             <div v-else>
@@ -94,21 +94,6 @@
       </q-table>
     </q-card-section>
     <q-card-section>
-    <!--
-      <div class="row justify-center">
-        <div
-          v-ripple
-          clickble
-          class="cursor-pointer"
-          style="border: 1px solid #D9F2EE; box-sizing: border-box; border-radius: 4px 0px 0px 4px; padding: 12px 14px; position: relative"
-        >Prev</div>
-        <div
-          class="text-white text-center cursor-pointer"
-          v-ripple
-          style="padding: 12px 14px; background: #00A58D; border: 1px solid #00A58D; box-sizing: border-box;"
-        >1</div>
-      </div>
-     -->
 
       <div class="row q-mt-md justify-center">
       <q-pagination
@@ -233,8 +218,8 @@ export default {
     if (this.dataList) {
       this.data = this.dataList
     } else {
-      this.data = []
-      // await this.getRecord()
+      // this.data = []
+      await this.getRecord()
     }
   },
   methods: {
@@ -252,7 +237,7 @@ export default {
       await this.$api.get(this.apiroute).then(res => {
         this.$q.loading.hide()
         if (res) {
-          // data de prueba
+          this.data = res
         }
       })
     },

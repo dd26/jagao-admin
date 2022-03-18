@@ -11,6 +11,7 @@ export default async ({ store, Vue }) => {
   Vue.prototype.$api = axiosInstance
 
   axiosInstance.interceptors.response.use(function (response) {
+    console.log(response, 'response')
     if (response.config.method === 'post') {
       if (response.status === 201) {
         if (response.data.token === undefined) {
@@ -18,7 +19,7 @@ export default async ({ store, Vue }) => {
             color: 'green-4',
             textColor: 'white',
             icon: 'fas fa-check-circle',
-            message: 'Registro guardado con éxito!'
+            message: 'Record saved successfully!'
           })
         } else {
           localStorage.setItem('JAGAO_SESSION_INFO', JSON.stringify(response))
@@ -28,6 +29,13 @@ export default async ({ store, Vue }) => {
     return response.data
   }, function (error) {
     console.log(error, 'error')
+    if (error.response.status === 401) {
+      Notify.create({
+        message: 'Incorrect Email and/or Password',
+        color: 'warning'
+      })
+      localStorage.removeItem('JAGAO_SESSION_INFO')
+    }
   })
 
   axiosInstance.interceptors.request.use(async function (config) {

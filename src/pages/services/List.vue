@@ -6,13 +6,13 @@
         :apiroute="route"
         :title="title"
         :btnNewObject="btnNewObject"
-        :dataList="dataPrueba"
         @newRegister="newRegister"
+        ref="listableRef"
       />
     </div>
 
     <q-dialog v-model="newDlg">
-      <NewService />
+      <NewService @recordSave="recordSave" />
     </q-dialog>
   </q-page>
 </template>
@@ -32,9 +32,9 @@ export default {
       },
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
-        { name: 'service', label: 'Service', field: 'service', align: 'left' },
+        { name: 'name', label: 'Service', field: 'name', align: 'left' },
         { name: 'price', label: 'Price', field: 'price', align: 'left' },
-        { name: 'category', label: 'Category', field: 'category', align: 'center', chip: true },
+        { name: 'category_id', label: 'Category', field: 'category_id', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
@@ -49,6 +49,11 @@ export default {
     newRegister () {
       console.log('newnewRegister')
       this.newDlg = true
+    },
+    recordSave () {
+      console.log('recordSave')
+      this.newDlg = false
+      this.$refs.listableRef.getRecord()
     }
   }
 }

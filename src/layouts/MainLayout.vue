@@ -27,7 +27,7 @@
       content-style="background: #D9F2EE;"
     >
       <section class="column full-height">
-        <div class="col-10">
+        <div class="col-12">
           <div class="row q-pt-lg">
             <div class="col-12 row justify-center q-pt-xl">
               <q-avatar size="100px">
@@ -50,34 +50,37 @@
               </q-list>
             </section>
           </div>
-        </div>
-        <div class="col-2">
-          <div class="row items-end">
-            <div class="col-12 row justify-center">
-              <q-btn
-                flat
-                round
-                dense
-                to="/"
-                style="color: #7DBA47"
-                label="Log Out"
-                class="col-9"
-                no-caps
-                icon="img:vectors/logout2.svg"
+          <div class="row items-center justify-start col-12 q-pt-xl">
+            <div
+              @click="confirmLogout"
+              class="col-12 row justify-center items-center q-gutter-x-md"
+              style="position: relative"
+              v-ripple
+              clickable
+            >
+              <q-icon
+                name="img:vectors/logout3.svg"
+                class="q-pa-sm bg-secondary"
+                style="border-radius: 50%"
+                size="xs"
               />
+              <div class="text-secondary" style="font-weight: 600; font-size: 20px;">Logout</div>
             </div>
             <div class="col-12 row justify-center q-pt-sm">
-              <q-btn
-                flat
-                round
-                dense
-                to="/"
-                color="black"
-                label="Settings"
-                class="col-9"
-                no-caps
-                icon="img:vectors/setting1.svg"
-              />
+              <div
+                class="col-12 row justify-center items-center q-gutter-x-md"
+                style="position: relative"
+                v-ripple
+                clickable
+              >
+                <q-icon
+                  name="img:vectors/setting3.svg"
+                  class="q-pa-sm bg-black"
+                  style="border-radius: 50%"
+                  size="xs"
+                />
+                <div class="text-black" style="font-weight: 600; font-size: 20px;">Settings</div>
+              </div>
             </div>
           </div>
         </div>
@@ -92,26 +95,27 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
-
+import { mapMutations } from 'vuex'
 const linksData = [
   {
     title: 'Home',
-    icon: 'img:vectors/home3.svg',
+    icon: 'img:vectors/home4.svg',
     link: '/home'
   },
   {
     title: 'Account',
-    icon: 'img:vectors/person1.svg',
-    link: '/home'
+    icon: 'person',
+    link: '/home',
+    hasVector: false
   },
   {
     title: 'Services',
-    icon: 'img:vectors/clean2.svg',
+    icon: 'img:vectors/clean4.svg',
     link: '/services'
   },
   {
     title: 'Customers',
-    icon: 'img:vectors/cora1.svg',
+    icon: 'img:vectors/cora2.svg',
     link: '/customers'
   },
   {
@@ -128,6 +132,30 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
+    }
+  },
+  methods: {
+    ...mapMutations('generals', ['logout']),
+    mLogout () {
+      this.logout()
+      this.$router.push('/login')
+    },
+    async confirmLogout () {
+      this.$q.dialog({
+        title: 'confirmation!',
+        message: 'you want to close your session?',
+        cancel: {
+          label: 'No',
+          outline: true
+        },
+        persistent: true,
+        ok: {
+          label: 'Yes',
+          color: 'negative'
+        }
+      }).onOk(() => {
+        this.mLogout()
+      })
     }
   }
 }

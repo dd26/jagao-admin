@@ -62,17 +62,21 @@
                 outlined
                 bg-color="white"
                 class="full-width"
+                :error="$v.form.name.$error"
+                @blur="$v.form.name.$touch"
               />
             </div>
             <div class="col-12 q-pt-lg">
               <q-input
                 v-model.number="form.price"
-                placeholder="Service"
+                placeholder="Price"
                 type="number"
                 dense
                 outlined
                 bg-color="white"
                 class="full-width"
+                :error="$v.form.price.$error"
+                @blur="$v.form.price.$touch"
               />
             </div>
           </div>
@@ -87,23 +91,30 @@
             type="textarea"
             bg-color="white"
             class="full-width"
+            :error="$v.form.description.$error"
+            @blur="$v.form.description.$touch"
             />
         </div>
 
         <div class="col-12 q-px-lg q-pt-lg">
           <q-select
-            v-model="form.category"
+            v-model="form.category_id"
             label="Category"
             dense
+            :options="categories"
             outlined
+            emit-value
+            map-options
             bg-color="white"
             class="full-width"
+            :error="$v.form.category_id.$error"
+            @blur="$v.form.category_id.$touch"
           />
         </div>
 
         <div class="col-12 q-px-lg q-pt-lg row q-pb-lg">
           <q-btn
-            @click="save"
+            @click="saveTwo"
             color="primary"
             label="Add"
             dense
@@ -119,27 +130,70 @@
 </template>
 
 <script>
+// importar vuelidate
+import { required } from 'vuelidate/lib/validators'
+import { FormMixin } from '../../mixins/Form'
 export default {
+  mixins: [FormMixin],
   props: ['id'],
   data () {
     return {
+      route: 'services',
       form: {
         name: null,
         price: null,
         description: null,
-        category: null
+        category_id: null
       },
-      categories: [],
+      categories: [
+        { label: 'Categoria 1', value: 1 },
+        { label: 'Categoria 2', value: 2 }
+      ],
       image: null,
       imageUrl: null
     }
   },
+  validations: {
+    form: {
+      name: { required },
+      price: { required },
+      description: { required },
+      category_id: { required }
+    }
+  },
   methods: {
-    save () {
-      console.log('save')
-    },
     onFileInput () {
       this.imageUrl = URL.createObjectURL(this.image)
+    },
+    afterSave () {
+      this.$emit('recordSave')
+    },
+    async saveTwo () {
+      const formData = new FormData()
+      formData.append('name', this.form.name)
+      formData.append('price', this.form.price)
+      formData.append('description', this.form.description)
+      formData.append('category_id', this.form.category_id)
+      formData.append('image', this.image)
+      this.$q.loading.show()
+      await this.$api.post('services', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        this.$q.loading.hide()
+        console.log(res)
+        if (res) {
+          this.$q.notify({
+            color: 'positive',
+            textColor: 'white',
+            message: 'Service added successfully'
+          })
+          this.afterSave()
+        }
+      }).catch((err) => {
+        console.log(err, 'error')
+      })
     }
   }
 }
