@@ -21,7 +21,7 @@
         :columns="columns"
         flat
         hide-bottom
-        row-key="_id"
+        row-key="id"
         ref="tabla_listable"
         :pagination.sync="pagination"
         hide-pagination
@@ -47,7 +47,7 @@
             </div>
             <div v-else-if="props.col.avatar">
               <q-avatar size="lg" class="bg-primary">
-                <img :src="$api_url() + 'image_test/' + props.row.id" alt="asd">
+                <img :src="`${$api_url()}image/${props.col.folder}/${props.row.id}`" alt="asd">
               </q-avatar>
             </div>
             <div v-else>
@@ -70,13 +70,13 @@
                     size="11px"
                     push
                     :to="n.url ? n.url : null"
-                    @click="execute(n.action, props.row._id, props.row, n)"
+                    @click="execute(n.action, props.row.id, props.row, n)"
                     :color="n.color ? n.color : 'primary'"
                   />
                 </div>
                 <div v-else>
                   <q-btn
-                    @click="execute(n.action, props.row._id, props.row, n)"
+                    @click="execute(n.action, props.row.id, props.row, n)"
                     flat
                     rounded
                     dense
@@ -260,7 +260,7 @@ export default {
         if (res) {
           this.getRecord()
           this.$q.notify({
-            message: 'Eliminado Correctamente',
+            message: 'Removed successfully!',
             color: 'positive'
           })
         }

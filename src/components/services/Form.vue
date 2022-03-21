@@ -23,7 +23,7 @@
             <section class="col-12 row items-center justify-center styled-avatar">
               <div class="styled-border row justify-center items-center">
                 <q-icon
-                  v-if="!image"
+                  v-if="!image && !id"
                   name="img:vectors/gps1.svg"
                   size="70px"
                 />
@@ -114,7 +114,7 @@
 
         <div class="col-12 q-px-lg q-pt-lg row q-pb-lg">
           <q-btn
-            @click="saveTwo"
+            @click="!id ? saveTwo() : save()"
             color="primary"
             label="Add"
             dense
@@ -161,9 +161,32 @@ export default {
       category_id: { required }
     }
   },
+  mounted () {
+    if (this.id) {
+      this.imageUrl = this.$api_url() + 'image/services/' + this.id
+    }
+  },
   methods: {
     onFileInput () {
       this.imageUrl = URL.createObjectURL(this.image)
+      if (this.id) {
+        const formData = new FormData()
+        formData.append('image', this.image)
+        this.$api.post(`image/services/${this.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(res => {
+          console.log(res, 'res')
+          if (res.success) {
+            this.$q.notify({
+              color: 'positive',
+              textColor: 'white',
+              message: 'Image updated'
+            })
+          }
+        })
+      }
     },
     afterSave () {
       this.$emit('recordSave')

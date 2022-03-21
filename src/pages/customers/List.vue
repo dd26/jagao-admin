@@ -6,14 +6,14 @@
         :apiroute="route"
         :title="title"
         :btnNewObject="btnNewObject"
-        :dataList="dataPrueba"
         @newRegister="newRegister"
         @openChangeDlg="openChangeDlg"
+        ref="listableRef"
       />
     </div>
 
     <q-dialog v-model="newDlg">
-      <New :id="id" />
+      <New :id="id" @recordSave="recordSave" />
     </q-dialog>
   </q-page>
 </template>
@@ -39,11 +39,6 @@ export default {
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
-      dataPrueba: [
-        { _id: '2', name: 'Juan', email: 'example123@gmail.com', avatar: 'avatar', identification: '123456789', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
-        { _id: '3', name: 'Juan', email: 'example123@gmail.com', avatar: 'avatar', identification: '123456789', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
-        { _id: '1', name: 'Juan', email: 'example123@gmail.com', avatar: 'avatar', identification: '123456789', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] }
-      ],
       id: null
     }
   },
@@ -55,6 +50,12 @@ export default {
     openChangeDlg (id) {
       console.log('openChangeDlg')
       this.changeDlg = true
+    },
+    recordSave () {
+      console.log('recordSave')
+      this.newDlg = false
+      this.id = null
+      this.$refs.listableRef.getRecord()
     }
   }
 }

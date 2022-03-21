@@ -63,6 +63,8 @@
               outlined
               bg-color="white"
               class="col-12"
+              :error="$v.form.userName.$error"
+              @blur="$v.form.userName.$touch"
             />
           </div>
           <div class="col-12 q-pt-lg row">
@@ -75,6 +77,8 @@
               bg-color="white"
               dense
               @focus="openProxy"
+              @blur="$v.form.birthdate.$touch"
+              :error="$v.form.birthdate.$error"
             >
               <template v-slot:append>
                 <q-icon
@@ -107,6 +111,8 @@
           :type="isPwd ? 'password' : 'text'"
           bg-color="white"
           class="col-12"
+          :error="$v.form.password.$error"
+          @blur="$v.form.password.$touch"
         >
           <q-icon
             :name="isPwd ? 'visibility' : 'visibility_off'"
@@ -127,6 +133,8 @@
           outlined
           bg-color="white"
           class="col-12"
+          :error="$v.form.identification.$error"
+          @blur="$v.form.identification.$touch"
         />
       </div>
 
@@ -140,43 +148,36 @@
           outlined
           bg-color="white"
           class="col-12"
-        />
-      </div>
-
-      <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> Mail </div>
-        <q-input
-          v-model="form.email"
-          placeholder="example@gmail.com"
-          dense
-          type="email"
-          outlined
-          bg-color="white"
-          class="col-12"
+          :error="$v.form.email.$error"
+          @blur="$v.form.email.$touch"
         />
       </div>
 
       <div class="col-12 row q-pt-lg">
         <div class="col-12 q-pl-md"> Country </div>
         <q-select
-          v-model="form.country"
+          v-model="form.country_id"
           dense
           :options="countries"
           outlined
           bg-color="white"
           class="col-12"
+          :error="$v.form.country_id.$error"
+          @blur="$v.form.country_id.$touch"
         />
       </div>
 
       <div class="col-12 row q-pt-lg">
         <div class="col-12 q-pl-md"> City / Town </div>
         <q-select
-          v-model="form.city"
+          v-model="form.city_id"
           dense
           :options="cities"
           outlined
           bg-color="white"
           class="col-12"
+          :error="$v.form.city_id.$error"
+          @blur="$v.form.city_id.$touch"
         />
       </div>
 
@@ -190,6 +191,8 @@
           class="col-12"
           type="textarea"
           placeholder="Your Adress #1-02"
+          :error="$v.form.address.$error"
+          @blur="$v.form.address.$touch"
         />
       </div>
 
@@ -208,7 +211,10 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+import { FormMixin } from '../../mixins/Form'
 export default {
+  mixins: [FormMixin],
   props: ['id'],
   data () {
     return {
@@ -218,8 +224,8 @@ export default {
         password: null,
         identification: null,
         email: null,
-        country: null,
-        city: null,
+        country_id: null,
+        city_id: null,
         address: null
       },
       image: null,
@@ -229,9 +235,58 @@ export default {
       countries: []
     }
   },
+  validations () {
+    return {
+      form: {
+        userName: { required },
+        birthdate: { required },
+        password: { required },
+        identification: { required },
+        email: { required },
+        country_id: { required },
+        city_id: { required },
+        address: { required }
+      }
+    }
+  },
   methods: {
-    save () {
-      console.log(this.form, 'save')
+    async saveTwo () {
+      this.$v.$touch()
+      if (this.$v.$invalid) return
+
+      const formData = new FormData()
+      formData.append('userName', this.form.userName)
+      formData.append('birthdate', this.form.birthdate)
+      formData.append('password', this.form.password)
+      formData.append('identification', this.form.identification)
+      formData.append('email', this.form.email)
+      formData.append('country', this.form.country)
+      formData.append('city', this.form.city)
+      formData.append('address', this.form.address)
+      formData.append('image', this.image)
+
+      this.$q.loading.show()
+      await this.$api.post('customers', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        this.$q.loading.hide()
+        console.log(res)
+        if (res) {
+          this.$q.notify({
+            color: 'positive',
+            textColor: 'white',
+            message: 'Customers added successfully'
+          })
+          this.afterSave()
+        }
+      }).catch((err) => {
+        console.log(err, 'error')
+      })
+    },
+    afterSave () {
+      this.$emit('recordSave')
     },
     openProxy () {
       const pop = this.$refs.qDateProxy

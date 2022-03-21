@@ -7,12 +7,13 @@
         :title="title"
         :btnNewObject="btnNewObject"
         @newRegister="newRegister"
+        @openChangeDlg="openChangeDlg"
         ref="listableRef"
       />
     </div>
 
     <q-dialog v-model="newDlg">
-      <NewService @recordSave="recordSave" />
+      <NewService @recordSave="recordSave" :id="id" />
     </q-dialog>
   </q-page>
 </template>
@@ -31,29 +32,32 @@ export default {
         action: 'newRegister'
       },
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'services' },
         { name: 'name', label: 'Service', field: 'name', align: 'left' },
         { name: 'price', label: 'Price', field: 'price', align: 'left' },
         { name: 'category_id', label: 'Category', field: 'category_id', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
-      dataPrueba: [
-        { _id: '2', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
-        { _id: '3', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] },
-        { _id: '1', service: 'Juan', price: 'Perez', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }] }
-      ]
+      id: null
     }
   },
   methods: {
     newRegister () {
       console.log('newnewRegister')
+      this.id = null
       this.newDlg = true
     },
     recordSave () {
       console.log('recordSave')
       this.newDlg = false
+      this.id = null
       this.$refs.listableRef.getRecord()
+    },
+    openChangeDlg (id) {
+      console.log('openChangeDlg', id)
+      this.id = id
+      this.newDlg = true
     }
   }
 }
