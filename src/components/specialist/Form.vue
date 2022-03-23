@@ -22,7 +22,7 @@
           <section class="col-12 row items-center justify-center styled-avatar">
             <div class="styled-border row justify-center items-center">
               <q-icon
-                v-if="!image"
+                v-if="!image && !id"
                 name="bi-person-fill"
                 size="120px"
                 style="color: #97DDFD"
@@ -63,18 +63,22 @@
               outlined
               bg-color="white"
               class="col-12"
+              :error="$v.form.userName.$error"
+              @blur="$v.form.userName.$touch"
             />
           </div>
           <div class="col-12 q-pt-lg row">
             <div class="col-12"> Birth date </div>
             <q-input
-              v-model="form.birthdate"
+              v-model="form.birthDate"
               mask="date"
               :rules="['date']"
               outlined
               bg-color="white"
               dense
               @focus="openProxy"
+              @blur="$v.form.birthDate.$touch"
+              :error="$v.form.birthDate.$error"
             >
               <template v-slot:append>
                 <q-icon
@@ -84,7 +88,7 @@
                   size="17px"
                 >
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="form.birthdate">
+                    <q-date v-model="form.birthDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="Close" color="primary" flat />
                       </div>
@@ -107,6 +111,8 @@
           :type="isPwd ? 'password' : 'text'"
           bg-color="white"
           class="col-12"
+          :error="$v.form.password.$error"
+          @blur="$v.form.password.$touch"
         >
           <q-icon
             :name="isPwd ? 'visibility' : 'visibility_off'"
@@ -127,6 +133,8 @@
           outlined
           bg-color="white"
           class="col-12"
+          :error="$v.form.identification.$error"
+          @blur="$v.form.identification.$touch"
         />
       </div>
 
@@ -140,43 +148,40 @@
           outlined
           bg-color="white"
           class="col-12"
-        />
-      </div>
-
-      <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> Mail </div>
-        <q-input
-          v-model="form.email"
-          placeholder="example@gmail.com"
-          dense
-          type="email"
-          outlined
-          bg-color="white"
-          class="col-12"
+          :error="$v.form.email.$error"
+          @blur="$v.form.email.$touch"
         />
       </div>
 
       <div class="col-12 row q-pt-lg">
         <div class="col-12 q-pl-md"> Country </div>
         <q-select
-          v-model="form.country"
+          v-model="form.country_id"
           dense
           :options="countries"
           outlined
           bg-color="white"
+          map-options
+          emit-value
           class="col-12"
+          :error="$v.form.country_id.$error"
+          @blur="$v.form.country_id.$touch"
         />
       </div>
 
       <div class="col-12 row q-pt-lg">
         <div class="col-12 q-pl-md"> City / Town </div>
         <q-select
-          v-model="form.city"
+          v-model="form.city_id"
           dense
           :options="cities"
           outlined
           bg-color="white"
           class="col-12"
+          map-options
+          emit-value
+          :error="$v.form.city_id.$error"
+          @blur="$v.form.city_id.$touch"
         />
       </div>
 
@@ -190,12 +195,14 @@
           class="col-12"
           type="textarea"
           placeholder="Your Adress #1-02"
+          :error="$v.form.address.$error"
+          @blur="$v.form.address.$touch"
         />
       </div>
 
       <div class="col-12 row justify-center q-pt-lg">
         <q-btn
-          @click="save"
+          @click="!id ? saveTwo() : save()"
           label="Create"
           color="primary"
           class="col-6"
@@ -208,38 +215,114 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+import { FormMixin } from '../../mixins/Form'
 export default {
+  mixins: [FormMixin],
   props: ['id'],
   data () {
     return {
+      route: 'specialists',
       form: {
         userName: null,
-        birthdate: null,
+        birthDate: null,
         password: null,
         identification: null,
         email: null,
-        country: null,
-        city: null,
+        country_id: null,
+        city_id: null,
         address: null
       },
       image: null,
       imageUrl: null,
       isPwd: false,
-      cities: [],
-      countries: []
+      cities: [{ value: 1, label: 'City 1' }, { value: 2, label: 'City 2' }],
+      countries: [{ value: 1, label: 'Country 1' }, { value: 2, label: 'Country 2' }]
+    }
+  },
+  validations () {
+    return {
+      form: {
+        userName: { required },
+        birthDate: { required },
+        password: { required },
+        identification: { required },
+        email: { required },
+        country_id: { required },
+        city_id: { required },
+        address: { required }
+      }
+    }
+  },
+  mounted () {
+    if (this.id) {
+      this.imageUrl = this.$api_url() + 'image/specialists/' + this.id
     }
   },
   methods: {
-    save () {
-      console.log(this.form, 'save')
+    async saveTwo () {
+      this.$v.$touch()
+      if (this.$v.$invalid) return
+
+      const formData = new FormData()
+      formData.append('userName', this.form.userName)
+      formData.append('birthDate', this.form.birthDate)
+      formData.append('password', this.form.password)
+      formData.append('identification', this.form.identification)
+      formData.append('email', this.form.email)
+      formData.append('country_id', this.form.country_id)
+      formData.append('city_id', this.form.city_id)
+      formData.append('address', this.form.address)
+      formData.append('image', this.image)
+
+      this.$q.loading.show()
+      await this.$api.post('specialists', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        this.$q.loading.hide()
+        console.log(res)
+        if (res) {
+          this.$q.notify({
+            color: 'positive',
+            textColor: 'white',
+            message: 'Specialist added successfully'
+          })
+          this.afterSave()
+        }
+      }).catch((err) => {
+        console.log(err, 'error')
+      })
+    },
+    afterSave () {
+      this.$emit('recordSave')
     },
     openProxy () {
       const pop = this.$refs.qDateProxy
+      console.log(pop.target, 'openProxy')
       pop.show()
-      console.log(pop, 'openProxy')
     },
     onFileInput () {
       this.imageUrl = URL.createObjectURL(this.image)
+      if (this.id) {
+        const formData = new FormData()
+        formData.append('image', this.image)
+        this.$api.post(`image/specialists/${this.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(res => {
+          console.log(res, 'res')
+          if (res.success) {
+            this.$q.notify({
+              color: 'positive',
+              textColor: 'white',
+              message: 'Image updated'
+            })
+          }
+        })
+      }
     }
   }
 

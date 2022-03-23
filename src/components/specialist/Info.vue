@@ -21,7 +21,7 @@
             />
           </q-avatar>
         </div>
-        <div class="col-12 text-center q-pt-sm" style="font-size: 16px; font-weight: 700;">Isabel Summerton</div>
+        <div class="col-12 text-center q-pt-sm" style="font-size: 16px; font-weight: 700;">{{ form.userName }}</div>
       </div>
     </q-card-section>
 
@@ -41,27 +41,27 @@
 
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Birth Date:</div>
-            <div class="col-12" style="font-size: 12px; font-weight: 500;">26/09/1999</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ formatDate(form.birthDate, 'DD/MM/YYYY') }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">ID:</div>
-            <div class="col-12" style="font-size: 12px; font-weight: 500;">123456789</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.identification }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">City/ Town:</div>
-            <div class="col-12" style="font-size: 12px; font-weight: 500;">Florida</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.city_id }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Adress:</div>
-            <div class="col-12" style="font-size: 12px; font-weight: 500;">Your adress 123-2</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.address }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Mail:</div>
-            <div class="col-12" style="font-size: 12px; font-weight: 500;">Example123@mail.com</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.email }}</div>
           </div>
         </div>
 
@@ -111,11 +111,28 @@
 </template>
 
 <script>
+import { date } from 'quasar'
 export default {
   props: ['id'],
   data () {
     return {
       form: {}
+    }
+  },
+  mounted () {
+    this.getRecord()
+  },
+  methods: {
+    async getRecord () {
+      this.$q.loading.show()
+      const res = await this.$api.get(`/specialists/${this.id}`)
+      this.$q.loading.hide()
+      if (res) {
+        this.form = res
+      }
+    },
+    formatDate (dateFormat, format) {
+      return date.formatDate(dateFormat, format)
     }
   }
 }

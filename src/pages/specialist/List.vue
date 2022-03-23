@@ -6,15 +6,15 @@
         :apiroute="route"
         :title="title"
         :btnNewObject="btnNewObject"
-        :dataList="dataPrueba"
         @newRegister="newRegister"
         @see-detail="seeDetail"
         @openChangeDlg="openChangeDlg"
+        ref="listableRef"
       />
     </div>
 
     <q-dialog v-model="newDlg">
-      <NewSpecialist :id="id" />
+      <NewSpecialist :id="id" @recordSave="recordSave" />
     </q-dialog>
 
     <q-dialog v-model="seeDetailDlg">
@@ -34,40 +34,58 @@ export default {
   data () {
     return {
       title: 'Specialist',
-      route: 'specialist',
+      route: 'specialists',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'
       },
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
-        { name: 'name', label: 'Name', field: 'name', align: 'left' },
-        { name: 'city', label: 'City', field: 'city', align: 'left' },
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'specialists' },
+        { name: 'userName', label: 'Name', field: 'userName', align: 'left' },
+        { name: 'city_id', label: 'City', field: 'city_id', align: 'left' },
         { name: 'services', label: 'Services', field: 'services', align: 'left' },
         { name: 'scheduled', label: 'Scheduled', field: 'scheduled', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
-      dataPrueba: [
-        { _id: '2', name: 'Jhon doe', city: 'Los angeles', services: '0', scheduled: 'services', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary', action: 'edit' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }, { title: 'see details', seeDetails: true, color: 'primary', action: 'seeDetail' }] },
-        { _id: '3', name: 'Jhon doe', city: 'Los angeles', services: '0', scheduled: 'services', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary', action: 'edit' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }, { title: 'see details', seeDetails: true, color: 'primary', action: 'seeDetail' }] },
-        { _id: '1', name: 'Jhon doe', city: 'Los angeles', services: '0', scheduled: 'services', avatar: 'avatar', category: 'Insum', actions: [{ title: 'Editar', icon: 'img:vectors/edit4.png', color: 'primary', action: 'edit' }, { title: 'Eliminar', icon: 'img:vectors/trash1.png', color: 'negative', action: 'delete' }, { title: 'see details', seeDetails: true, color: 'primary', action: 'seeDetail' }] }
-      ],
       seeDetailDlg: false,
       id: null
+    }
+  },
+  watch: {
+    newDlg (newValue) {
+      if (!newValue) {
+        this.$refs.listableRef.getRecord()
+        this.id = null
+      }
+    },
+    seeDetailDlg (newValue) {
+      if (!newValue) {
+        this.$refs.listableRef.getRecord()
+        this.id = null
+      }
     }
   },
   methods: {
     seeDetail (row) {
       console.log('see details general', row)
       this.seeDetailDlg = true
-      this.id = row._id
-    },
-    newRegister () {
-      this.newDlg = true
+      this.id = row.id
     },
     openChangeDlg (id) {
-      console.log('open change dlg', id)
+      console.log('openChangeDlg')
+      this.id = id
+      this.newDlg = true
+    },
+    recordSave () {
+      console.log('recordSave')
+      this.newDlg = false
+      this.id = null
+      this.$refs.listableRef.getRecord()
+    },
+    newRegister () {
+      console.log('newnewRegister')
+      this.newDlg = true
     }
   }
 }
