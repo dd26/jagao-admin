@@ -22,7 +22,7 @@
           <section class="col-12 row items-center justify-center styled-avatar">
             <div class="styled-border row justify-center items-center">
               <q-icon
-                v-if="!image"
+                v-if="!image && !id"
                 name="bi-person-fill"
                 size="120px"
                 style="color: #97DDFD"
@@ -70,15 +70,15 @@
           <div class="col-12 q-pt-lg row">
             <div class="col-12"> Birth date </div>
             <q-input
-              v-model="form.birthdate"
+              v-model="form.birthDate"
               mask="date"
               :rules="['date']"
               outlined
               bg-color="white"
               dense
               @focus="openProxy"
-              @blur="$v.form.birthdate.$touch"
-              :error="$v.form.birthdate.$error"
+              @blur="$v.form.birthDate.$touch"
+              :error="$v.form.birthDate.$error"
             >
               <template v-slot:append>
                 <q-icon
@@ -88,7 +88,7 @@
                   size="17px"
                 >
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="form.birthdate">
+                    <q-date v-model="form.birthDate">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="Close" color="primary" flat />
                       </div>
@@ -161,6 +161,8 @@
           :options="countries"
           outlined
           bg-color="white"
+          map-options
+          emit-value
           class="col-12"
           :error="$v.form.country_id.$error"
           @blur="$v.form.country_id.$touch"
@@ -176,6 +178,8 @@
           outlined
           bg-color="white"
           class="col-12"
+          map-options
+          emit-value
           :error="$v.form.city_id.$error"
           @blur="$v.form.city_id.$touch"
         />
@@ -198,7 +202,7 @@
 
       <div class="col-12 row justify-center q-pt-lg">
         <q-btn
-          @click="save"
+          @click="!id ? saveTwo() : save()"
           label="Create"
           color="primary"
           class="col-6"
@@ -218,9 +222,10 @@ export default {
   props: ['id'],
   data () {
     return {
+      route: 'customers',
       form: {
         userName: null,
-        birthdate: null,
+        birthDate: null,
         password: null,
         identification: null,
         email: null,
@@ -231,15 +236,15 @@ export default {
       image: null,
       imageUrl: null,
       isPwd: false,
-      cities: [],
-      countries: []
+      cities: [{ value: 1, label: 'City 1' }, { value: 2, label: 'City 2' }],
+      countries: [{ value: 1, label: 'Country 1' }, { value: 2, label: 'Country 2' }]
     }
   },
   validations () {
     return {
       form: {
         userName: { required },
-        birthdate: { required },
+        birthDate: { required },
         password: { required },
         identification: { required },
         email: { required },
@@ -249,6 +254,11 @@ export default {
       }
     }
   },
+  mounted () {
+    if (this.id) {
+      this.imageUrl = this.$api_url() + 'image/customers/' + this.id
+    }
+  },
   methods: {
     async saveTwo () {
       this.$v.$touch()
@@ -256,12 +266,12 @@ export default {
 
       const formData = new FormData()
       formData.append('userName', this.form.userName)
-      formData.append('birthdate', this.form.birthdate)
+      formData.append('birthDate', this.form.birthDate)
       formData.append('password', this.form.password)
       formData.append('identification', this.form.identification)
       formData.append('email', this.form.email)
-      formData.append('country', this.form.country)
-      formData.append('city', this.form.city)
+      formData.append('country_id', this.form.country_id)
+      formData.append('city_id', this.form.city_id)
       formData.append('address', this.form.address)
       formData.append('image', this.image)
 
@@ -295,6 +305,24 @@ export default {
     },
     onFileInput () {
       this.imageUrl = URL.createObjectURL(this.image)
+      if (this.id) {
+        const formData = new FormData()
+        formData.append('image', this.image)
+        this.$api.post(`image/customers/${this.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(res => {
+          console.log(res, 'res')
+          if (res.success) {
+            this.$q.notify({
+              color: 'positive',
+              textColor: 'white',
+              message: 'Image updated'
+            })
+          }
+        })
+      }
     }
   }
 

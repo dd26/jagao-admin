@@ -32,14 +32,22 @@ export default {
         action: 'newRegister'
       },
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
-        { name: 'name', label: 'Name', field: 'name', align: 'left' },
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'customers' },
+        { name: 'userName', label: 'Username', field: 'userName', align: 'left' },
         { name: 'email', label: 'Mail', field: 'email', align: 'left' },
         { name: 'identification', label: 'DNI', field: 'identification', align: 'left' },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
       id: null
+    }
+  },
+  watch: {
+    newDlg (newValue) {
+      if (!newValue) {
+        this.$refs.listableRef.getRecord()
+        this.id = null
+      }
     }
   },
   methods: {
@@ -49,7 +57,8 @@ export default {
     },
     openChangeDlg (id) {
       console.log('openChangeDlg')
-      this.changeDlg = true
+      this.id = id
+      this.newDlg = true
     },
     recordSave () {
       console.log('recordSave')
