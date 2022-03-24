@@ -16,7 +16,7 @@
         <div style="border: 4px solid white; border-radius: 50%">
           <q-avatar size="90px">
             <img
-              src="vectors/avatar3.svg"
+              :src="$api_url() + 'image/specialists/' + id"
               style="width: 100%; height: 100%;"
             />
           </q-avatar>

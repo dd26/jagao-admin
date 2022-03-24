@@ -69,16 +69,16 @@
               <section class="col-12 row">
                 <q-scroll-area class="col-12" dense style="height: 250px">
                   <q-item
-                    v-for="n in 5"
-                    :key="n"
+                    v-for="(item, ind) in specialists"
+                    :key="ind"
                     style="padding: 0 !important; padding-top: 6px;"
                   >
                     <q-item-section avatar>
                       <q-avatar>
-                        <img src="vectors/avatar4.svg">
+                        <img :src="`${$api_url()}image/specialists/${item.id}`">
                       </q-avatar>
                     </q-item-section>
-                    <q-item-section>Alissa Sumerton</q-item-section>
+                    <q-item-section>{{ item.userName }}</q-item-section>
                     <q-item-section side center style="color: #B3B3B3">
                     0
                     </q-item-section>
@@ -112,10 +112,22 @@ export default {
         { name: 'name', label: 'Name', field: 'name', align: 'left' },
         { name: 'date', label: 'Date', field: 'date', align: 'left' },
         { name: 'location', label: 'Location', field: 'location', align: 'center' }
-      ]
+      ],
+      specialists: []
     }
   },
-  components: { Listable }
+  components: { Listable },
+  mounted () {
+    this.getSpecialists()
+  },
+  methods: {
+    async getSpecialists () {
+      const res = await this.$api.get('specialists')
+      if (res) {
+        this.specialists = res
+      }
+    }
+  }
 }
 </script>
 
