@@ -114,6 +114,11 @@ const linksData = [
     link: '/services'
   },
   {
+    title: 'Categories',
+    icon: 'img:vectors/clean4.svg',
+    link: '/categories'
+  },
+  {
     title: 'Customers',
     icon: 'img:vectors/cora2.svg',
     link: '/customers'
