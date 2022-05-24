@@ -1,2 +1,2 @@
-import Categories from './Categories'
-export default Categories
+import Form from './Form'
+export default Form

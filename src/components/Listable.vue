@@ -58,7 +58,7 @@
 
         <template v-slot:body-cell-actions="props" v-if="checkIfActions">
           <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
-            <div class="row no-wrap q-gutter-x-xs justify-around full-width">
+            <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
               <div v-for="n in props.row.actions" :key="n.title">
                 <div v-if="!n.seeDetails">
                   <q-btn
@@ -257,6 +257,7 @@ export default {
       this.$q.loading.show()
       await this.$api.delete(this.apiroute + '/' + id).then(res => {
         this.$q.loading.hide()
+        this.$emit('deleteRecord')
         if (res) {
           this.getRecord()
           this.$q.notify({

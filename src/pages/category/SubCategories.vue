@@ -11,13 +11,13 @@
         :btnNewObject="btnNewObject"
         @newRegister="newRegister"
         @openChangeDlg="openChangeDlg"
+        ref="listableRefSubCategories"
         @deleteRecord="deleteRecord"
-        ref="listableRef"
       />
     </div>
 
     <q-dialog v-model="newDlg">
-      <category
+      <sub-category
         :id="id"
         @recordSave="recordSave"
       />
@@ -26,22 +26,25 @@
 </template>
 
 <script>
-import Category from '../../components/category/Category.vue'
+import SubCategory from '../../components/subcategory/SubCategory.vue'
 import Listable from '../../components/Listable.vue'
 
 export default {
-  components: { Listable, Category },
+  components: { Listable, SubCategory },
   data () {
     return {
-      route: 'categories',
-      title: 'Categories',
+      route: 'subcategories',
+      title: 'Sub-Categories',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'
       },
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'categories' },
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'subcategories' },
         { name: 'name', label: 'Name', sortable: true, field: 'name', align: 'left' },
+        { name: 'description', label: 'Description', sortable: true, field: 'description', align: 'left' },
+        { name: 'category_name', label: 'Category name', sortable: true, field: 'category_name', align: 'left' },
+        { name: 'has_document', label: 'Required document', sortable: true, field: row => row.has_document === 1 ? 'YES' : 'NO', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
@@ -51,14 +54,14 @@ export default {
   watch: {
     newDlg (newValue) {
       if (!newValue) {
-        this.$refs.listableRef.getRecord()
+        this.$refs.listableRefSubCategories.getRecord()
         this.id = null
       }
     }
   },
   methods: {
     updateData () {
-      this.$refs.listableRef.getRecord()
+      this.$refs.listableRefSubCategories.getRecord()
     },
     deleteRecord () {
       this.$emit('deleteRecord')
@@ -73,7 +76,7 @@ export default {
     recordSave () {
       this.newDlg = false
       this.id = null
-      this.$refs.listableRef.getRecord()
+      this.$refs.listableRefSubCategories.getRecord()
     }
   }
 }

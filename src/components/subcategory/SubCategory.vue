@@ -14,7 +14,7 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Add Category</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Add Sub-Category</div>
       </div>
 
       <div class="row q-px-lg">
@@ -57,13 +57,53 @@
             <div class="col-12">
               <q-input
                 v-model="form.name"
-                placeholder="Category name"
+                placeholder="Sub-Category name"
                 dense
                 outlined
                 bg-color="white"
                 class="full-width"
                 :error="$v.form.name.$error"
                 @blur="$v.form.name.$touch"
+              />
+            </div>
+            <div class="col-12 row">
+              <q-input
+                v-model="form.description"
+                placeholder="Sub-Category description"
+                dense
+                outlined
+                bg-color="white"
+                class="col-12"
+                type="textarea"
+              />
+            </div>
+
+            <div class="col-12 row q-pt-md">
+              <q-select
+                v-model="form.category_id"
+                label="Category"
+                dense
+                outlined
+                bg-color="white"
+                class="col-12"
+                :options="opCategories"
+                option-value="id"
+                option-label="name"
+                map-options
+                emit-value
+                :error="$v.form.category_id.$error"
+                @blur="$v.form.category_id.$touch"
+              />
+            </div>
+
+            <div class="col-12 row q-pt-md">
+              <q-checkbox
+                v-model="form.hasDocument"
+                dense
+                label="do you need documentation?"
+                keep-color
+                color="primary"
+                class="text-primary"
               />
             </div>
           </div>
@@ -95,31 +135,44 @@ export default {
   props: ['id'],
   data () {
     return {
-      route: 'categories',
+      route: 'subcategories',
       form: {
-        name: null
+        name: null,
+        description: '',
+        hasDocument: false,
+        category_id: null
       },
       image: null,
-      imageUrl: null
+      imageUrl: null,
+      opCategories: []
     }
   },
   validations: {
     form: {
-      name: { required }
+      name: { required },
+      category_id: { required }
     }
   },
   mounted () {
     if (this.id) {
-      this.imageUrl = this.$api_url() + 'image/categories/' + this.id
+      this.imageUrl = this.$api_url() + 'image/subcategories/' + this.id
     }
+    this.getCategories()
   },
   methods: {
+    getCategories () {
+      this.$api.get('categories').then(res => {
+        if (res) {
+          this.opCategories = res
+        }
+      })
+    },
     onFileInput () {
       this.imageUrl = URL.createObjectURL(this.image)
       if (this.id) {
         const formData = new FormData()
         formData.append('image', this.image)
-        this.$api.post(`image/categories/${this.id}`, formData, {
+        this.$api.post(`image/${this.route}/${this.id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -144,6 +197,9 @@ export default {
       }
       const formData = new FormData()
       formData.append('name', this.form.name)
+      formData.append('description', this.form.description)
+      formData.append('has_document', this.form.hasDocument ? 1 : 0)
+      formData.append('category_id', this.form.category_id)
       formData.append('image', this.image)
       this.$q.loading.show()
       await this.$api.post(this.route, formData, {
