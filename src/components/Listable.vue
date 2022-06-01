@@ -50,7 +50,7 @@
                 <img :src="`${$api_url()}image/${props.col.folder}/${props.row.id}`" alt="asd">
               </q-avatar>
             </div>
-            <div v-else>
+            <div v-else class="ellipsis">
               {{props.value}}
             </div>
           </q-td>

@@ -96,6 +96,20 @@
               />
             </div>
 
+            <div class="col-12">
+              <q-input
+                v-model.number="form.price"
+                placeholder="Price"
+                dense
+                type="number"
+                outlined
+                bg-color="white"
+                class="full-width"
+                :error="$v.form.price.$error"
+                @blur="$v.form.price.$touch"
+              />
+            </div>
+
             <div class="col-12 row q-pt-md">
               <q-checkbox
                 v-model="form.hasDocument"
@@ -128,7 +142,7 @@
 
 <script>
 // importar vuelidate
-import { required } from 'vuelidate/lib/validators'
+import { required, minValue } from 'vuelidate/lib/validators'
 import { FormMixin } from '../../mixins/Form'
 export default {
   mixins: [FormMixin],
@@ -140,7 +154,8 @@ export default {
         name: null,
         description: '',
         hasDocument: false,
-        category_id: null
+        category_id: null,
+        price: 0
       },
       image: null,
       imageUrl: null,
@@ -150,7 +165,8 @@ export default {
   validations: {
     form: {
       name: { required },
-      category_id: { required }
+      category_id: { required },
+      price: { required, minValue: minValue(0) }
     }
   },
   mounted () {
@@ -200,6 +216,7 @@ export default {
       formData.append('description', this.form.description)
       formData.append('has_document', this.form.hasDocument ? 1 : 0)
       formData.append('category_id', this.form.category_id)
+      formData.append('price', this.form.price)
       formData.append('image', this.image)
       this.$q.loading.show()
       await this.$api.post(this.route, formData, {
