@@ -5,3 +5,12 @@
 .my-font {
   font-family: 'Outfit', sans-serif;
 }
+
+.no-border-inputs {
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 8px;
+  padding: 0 10px;
+  background-color: #FFF;
+}

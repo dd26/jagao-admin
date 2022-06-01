@@ -9,12 +9,11 @@
           placeholder="User Name/Email"
           :error="$v.form.email.$error"
           @blur="$v.form.email.$touch()"
-          class="col-12"
-          outlined
-          bg-color="white"
+          class="col-10 no-border-inputs q-mb-md"
+          borderless
           dense
         >
-          <q-icon name="person" slot="prepend" />
+          <q-icon name="person" slot="prepend" style="color: #B3B3B3" />
         </q-input>
 
         <q-input
@@ -22,14 +21,15 @@
           placeholder="**************"
           :error="$v.form.password.$error"
           @blur="$v.form.password.$touch()"
-          class="col-12"
-          outlined
+          class="col-10 no-border-inputs q-mb-md"
+          borderless
           bg-color="white"
           dense
           :type="isPwd ? 'password' : 'text'"
         >
-          <q-icon name="lock" slot="prepend" />
+          <q-icon name="lock" slot="prepend" style="color: #B3B3B3" />
           <q-icon
+            style="color: #B3B3B3"
             @click="isPwd = !isPwd"
             :name="isPwd ? 'visibility' : 'visibility_off'"
             slot="append"
@@ -38,7 +38,7 @@
 
         <q-btn
           @click="signIn"
-          class="col-12 q-mt-sm q-py-xs"
+          class="col-10 q-mt-sm q-py-xs"
           color="primary"
           label="SIGN IN"
           outlined
@@ -46,7 +46,7 @@
           dense
         />
 
-        <div class="q-pt-md text-center col-12" style="font-size: 12px; font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>
+        <div class="q-pt-md text-center col-12" style="font-size: 12px; font-weight: 400; color: #838383">Lorem ipsum dolor sit amet, consectetur <br> adipiscing elit, sed do eiusmod tempor</div>
       </section>
     </div>
     <div class="col-7 column items-center justify-center" style="position: relative;">
