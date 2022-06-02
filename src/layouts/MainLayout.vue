@@ -115,7 +115,7 @@ const linksData = [
   },
   {
     title: 'Categories',
-    icon: 'img:vectors/clean4.svg',
+    icon: 'img:vectors/categorie1.svg',
     link: '/categories'
   },
   {
@@ -124,10 +124,15 @@ const linksData = [
     link: '/customers'
   },
   {
-    title: 'Payments',
-    icon: 'img:vectors/dollar1.svg',
+    title: 'Specialist',
+    icon: 'img:vectors/specialist1.svg',
     link: '/specialist'
-  }
+  }/* ,
+  {
+    title: 'Payments',
+    icon: 'img:vectors/specialist1.svg',
+    link: '/specialist'
+  } */
 ]
 
 export default {

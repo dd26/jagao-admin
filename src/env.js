@@ -1,3 +1,4 @@
 export default {
-  apiUrl: 'http://127.0.0.1:8000/api/'
+  apiUrl: 'https://jagao.dev/backend/app/public/api/'
+  // apiUrl: 'http://localhost:8000/api/'
 }
