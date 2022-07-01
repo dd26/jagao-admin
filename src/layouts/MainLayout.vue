@@ -127,12 +127,12 @@ const linksData = [
     title: 'Specialist',
     icon: 'img:vectors/specialist1.svg',
     link: '/specialist'
-  }/* ,
+  },
   {
-    title: 'Payments',
-    icon: 'img:vectors/specialist1.svg',
-    link: '/specialist'
-  } */
+    title: 'Cupones',
+    icon: 'img:vectors/cupon1.svg',
+    link: '/coupons'
+  }
 ]
 
 export default {

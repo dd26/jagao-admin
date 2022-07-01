@@ -91,6 +91,39 @@
           </q-td>
         </template>
 
+        <template v-slot:body-cell-actionsNew="props" v-if="checkIfActionsNew">
+          <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
+            <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
+              <q-btn
+                flat
+                rounded
+                dense
+                color="primary"
+                size="md"
+                no-caps
+                icon="more_vert"
+              >
+                <q-menu>
+                  <q-list style="background-color: #D9F2EE;overflow: hidden">
+                    <q-item
+                      @click="execute(n.action, props.row.id, props.row, n)"
+                      v-for="n in props.row.actionsNew"
+                      :key="n.title"
+                      clickable
+                      class="text-primary"
+                      v-ripple
+                    >
+                      <q-item-section>
+                        <q-item-label class="text-bold"> {{ n.title }} </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </div>
+          </q-td>
+        </template>
+
       </q-table>
     </q-card-section>
     <q-card-section>
@@ -170,8 +203,10 @@ export default {
       return Math.ceil(this.data.length / this.pagination.rowsPerPage)
     },
     checkIfActions () {
-      console.log(this.columns.find((element) => element.name === 'actions'), 'VERIFICANDO SI EXISTEN ACCIONES')
       return this.columns.find((element) => element.name === 'actions')
+    },
+    checkIfActionsNew () {
+      return this.columns.find((element) => element.name === 'actionsNew')
     }
   },
   props: {
@@ -223,6 +258,9 @@ export default {
     }
   },
   methods: {
+    changeStatusCoupon (id, row) {
+      this.$emit('changeStatusCoupon', id, row.status)
+    },
     seeDetail (id, row) {
       this.$emit('see-detail', row)
     },
