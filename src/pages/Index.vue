@@ -15,11 +15,11 @@
             <q-icon name="img:vectors/gps2.svg" size="70px" />
           </div>
           <div class="col-9 column text-white items-end q-px-md">
-            <div class="col-2" style="font-size: 24px; font-weight: 700;">Services</div>
+            <div class="col-2" style="font-size: 24px; font-weight: 700;">Servicios</div>
             <div class="col-9 row items-end">
               <div class="row">
                 <div class="col-12 text-right" style="font-size: 24px; font-weight: 700;">0.00</div>
-                <div class="col-12 text-right" style="font-size: 14px; font-weight: 500;">Prestations Perfome / Monthly</div>
+                <div class="col-12 text-right" style="font-size: 14px; font-weight: 500;">Prestaciones / Mensual</div>
               </div>
             </div>
           </div>
@@ -30,11 +30,11 @@
             <q-icon name="img:vectors/wallet1.svg" size="70px" />
           </div>
           <div class="col-9 column text-white items-end q-px-md">
-            <div class="col-2" style="font-size: 24px; font-weight: 700;">Comisions</div>
+            <div class="col-2" style="font-size: 24px; font-weight: 700;">Comisiones</div>
             <div class="col-9 row items-end">
               <div class="row">
                 <div class="col-12 text-right" style="font-size: 24px; font-weight: 700;">0.00</div>
-                <div class="col-12 text-right" style="font-size: 14px; font-weight: 500;">Earnings / Monthly</div>
+                <div class="col-12 text-right" style="font-size: 14px; font-weight: 500;">Ganancias / Mensual</div>
               </div>
             </div>
           </div>
@@ -45,11 +45,11 @@
             <q-icon name="img:vectors/calculator1.svg" size="70px" />
           </div>
           <div class="col-9 column text-primary items-end q-px-md">
-            <div class="col-2" style="font-size: 24px; font-weight: 700;">Bills</div>
+            <div class="col-2" style="font-size: 24px; font-weight: 700;">Facturas</div>
             <div class="col-9 row items-end">
               <div class="row">
                 <div class="col-12 text-right" style="font-size: 24px; font-weight: 700;">0.00</div>
-                <div class="col-12 text-right" style="font-size: 14px; font-weight: 500;">EarBills to pay / Monthly</div>
+                <div class="col-12 text-right" style="font-size: 14px; font-weight: 500;">Facturas a pagar / Mensual</div>
               </div>
             </div>
           </div>
@@ -58,11 +58,11 @@
         <q-card class="col-12 list-styled-specialist q-px-md q-pt-lg row">
           <div class="col-12">
             <div class="row">
-              <div class="text-primary col-12" style="font-size: 32px; font-weight: 700;">Specialist</div>
+              <div class="text-primary col-12" style="font-size: 32px; font-weight: 700;">Espeialistas</div>
               <hr style="border-top: 1px solid #C4C4C4" class="col-12">
               <div class="col-12 row" style="font-size: 14px; font-weight: 500;">
-                <div class="col-6 text-center">Name</div>
-                <div class="col-6 text-right">Services</div>
+                <div class="col-6 text-center">Nombre</div>
+                <div class="col-6 text-right">Servicio</div>
               </div>
               <hr style="border-top: 1px solid #C4C4C4" class="col-12">
 
@@ -99,7 +99,7 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      title: 'Services',
+      title: 'Servicios',
       route: 'services',
       dataPrueba: [
         { name: 'Jhon Doe Summerton', date: '01/01/2022', location: 'Non-Street - Lorem ipsum Dolor' },
@@ -109,9 +109,9 @@ export default {
       ],
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
-        { name: 'name', label: 'Name', field: 'name', align: 'left' },
-        { name: 'date', label: 'Date', field: 'date', align: 'left' },
-        { name: 'location', label: 'Location', field: 'location', align: 'center' }
+        { name: 'name', label: 'Nombre', field: 'name', align: 'left' },
+        { name: 'date', label: 'Fecha', field: 'date', align: 'left' },
+        { name: 'location', label: 'Localizacion', field: 'location', align: 'center' }
       ],
       specialists: []
     }

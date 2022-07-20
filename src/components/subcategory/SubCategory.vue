@@ -14,7 +14,7 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Add Sub-Category</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar Sub-Categoria</div>
       </div>
 
       <div class="row q-px-lg">
@@ -57,7 +57,7 @@
             <div class="col-12">
               <q-input
                 v-model="form.name"
-                placeholder="Sub-Category name"
+                placeholder="Nombre Sub-Categoria"
                 dense
                 outlined
                 bg-color="white"
@@ -69,7 +69,7 @@
             <div class="col-12 row">
               <q-input
                 v-model="form.description"
-                placeholder="Sub-Category description"
+                placeholder="Descripcion"
                 dense
                 outlined
                 bg-color="white"
@@ -81,7 +81,7 @@
             <div class="col-12 row q-pt-md">
               <q-select
                 v-model="form.category_id"
-                label="Category"
+                label="Categoria"
                 dense
                 outlined
                 bg-color="white"
@@ -99,7 +99,7 @@
             <div class="col-12">
               <q-input
                 v-model.number="form.price"
-                placeholder="Price"
+                placeholder="Precio"
                 dense
                 type="number"
                 outlined
@@ -114,7 +114,7 @@
               <q-checkbox
                 v-model="form.hasDocument"
                 dense
-                label="do you need documentation?"
+                label="¿Necesitas documentación?"
                 keep-color
                 color="primary"
                 class="text-primary"
@@ -127,7 +127,7 @@
           <q-btn
             @click="!id ? saveTwo() : save()"
             color="primary"
-            label="Add"
+            label="Agregar"
             dense
             outlined
             class="col-12"

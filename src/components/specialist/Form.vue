@@ -13,7 +13,7 @@
     </div>
 
     <div class="q-px-xl row">
-      <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Create Profile</div>
+      <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Crear perfil</div>
     </div>
 
     <div class="row q-px-lg q-pb-xl">
@@ -55,7 +55,7 @@
         </div>
         <div class="col-6 row">
           <div class="col-12 row">
-            <div class="col-12"> User Name </div>
+            <div class="col-12"> Nombre de usuario </div>
             <q-input
               v-model="form.userName"
               placeholder="yourusername01"
@@ -68,7 +68,7 @@
             />
           </div>
           <div class="col-12 q-pt-lg row">
-            <div class="col-12"> Birth date </div>
+            <div class="col-12"> Fecha de nacimiento </div>
             <q-input
               v-model="form.birthDate"
               mask="date"
@@ -102,7 +102,7 @@
       </section>
 
       <div class="col-12 row">
-        <div class="col-12 q-pl-md"> Password </div>
+        <div class="col-12 q-pl-md"> Contrasena </div>
         <q-input
           v-model="form.password"
           placeholder="* * * * * * * * * * * *"
@@ -125,7 +125,7 @@
       </div>
 
       <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> ID </div>
+        <div class="col-12 q-pl-md"> Identificacion </div>
         <q-input
           v-model="form.identification"
           placeholder="123456789"
@@ -139,7 +139,7 @@
       </div>
 
       <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> Mail </div>
+        <div class="col-12 q-pl-md"> Correo </div>
         <q-input
           v-model="form.email"
           placeholder="example@gmail.com"
@@ -154,7 +154,7 @@
       </div>
 
       <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> Country </div>
+        <div class="col-12 q-pl-md"> Pais </div>
         <q-select
           v-model="form.country_id"
           dense
@@ -170,7 +170,7 @@
       </div>
 
       <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> City / Town </div>
+        <div class="col-12 q-pl-md"> Ciudad / Pueblo </div>
         <q-select
           v-model="form.city_id"
           dense
@@ -186,7 +186,7 @@
       </div>
 
       <div class="col-12 row q-pt-lg">
-        <div class="col-12 q-pl-md"> Address </div>
+        <div class="col-12 q-pl-md"> Direccion </div>
         <q-input
           v-model="form.address"
           dense
@@ -203,7 +203,7 @@
       <div class="col-12 row justify-center q-pt-lg">
         <q-btn
           @click="!id ? saveTwo() : save()"
-          label="Create"
+          label="Crear"
           color="primary"
           class="col-6"
           rounded

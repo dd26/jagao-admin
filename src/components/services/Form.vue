@@ -14,7 +14,7 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Add Service</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar Servicio</div>
       </div>
 
       <div class="row q-px-lg">
@@ -57,7 +57,7 @@
             <div class="col-12">
               <q-input
                 v-model="form.name"
-                placeholder="Service"
+                placeholder="Servicio"
                 dense
                 outlined
                 bg-color="white"
@@ -69,7 +69,7 @@
             <div class="col-12 q-pt-lg">
               <q-input
                 v-model.number="form.price"
-                placeholder="Price"
+                placeholder="Precio"
                 type="number"
                 dense
                 outlined
@@ -85,7 +85,7 @@
         <div class="col-12 q-px-lg">
           <q-input
             v-model="form.description"
-            placeholder="Description"
+            placeholder="Descripcion"
             dense
             outlined
             type="textarea"
@@ -99,7 +99,7 @@
         <div class="col-12 q-px-lg q-pt-lg">
           <q-select
             v-model="form.category_id"
-            label="Category"
+            label="Categoria"
             dense
             :options="categories"
             outlined
@@ -116,7 +116,7 @@
           <q-btn
             @click="!id ? saveTwo() : save()"
             color="primary"
-            label="Add"
+            label="Agregar"
             dense
             outlined
             class="col-12"

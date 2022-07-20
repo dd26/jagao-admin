@@ -25,7 +25,7 @@ export default {
   components: { Listable, New },
   data () {
     return {
-      title: 'Customers',
+      title: 'Clientes',
       route: 'customers',
       btnNewObject: {
         icon: 'add',
@@ -33,9 +33,9 @@ export default {
       },
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'customers' },
-        { name: 'userName', label: 'Username', field: 'userName', align: 'left' },
-        { name: 'email', label: 'Mail', field: 'email', align: 'left' },
-        { name: 'identification', label: 'DNI', field: 'identification', align: 'left' },
+        { name: 'userName', label: 'Nombre de Usuario', field: 'userName', align: 'left' },
+        { name: 'email', label: 'Correo', field: 'email', align: 'left' },
+        { name: 'identification', label: 'Identificacion', field: 'identification', align: 'left' },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,

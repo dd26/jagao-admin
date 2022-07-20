@@ -64,7 +64,7 @@
                 style="border-radius: 50%"
                 size="xs"
               />
-              <div class="text-secondary" style="font-weight: 600; font-size: 20px;">Logout</div>
+              <div class="text-secondary" style="font-weight: 600; font-size: 20px;">Cerrar Sesion</div>
             </div>
             <div class="col-12 row justify-center q-pt-sm">
               <div
@@ -79,7 +79,7 @@
                   style="border-radius: 50%"
                   size="xs"
                 />
-                <div class="text-black" style="font-weight: 600; font-size: 20px;">Settings</div>
+                <div class="text-black" style="font-weight: 600; font-size: 20px;">Configuracion</div>
               </div>
             </div>
           </div>
@@ -98,33 +98,33 @@ import EssentialLink from 'components/EssentialLink.vue'
 import { mapMutations } from 'vuex'
 const linksData = [
   {
-    title: 'Home',
+    title: 'Inicio',
     icon: 'img:vectors/home4.svg',
     link: '/home'
   },
   {
-    title: 'Account',
+    title: 'Cuenta',
     icon: 'person',
     link: '/home',
     hasVector: false
   },
   {
-    title: 'Services',
+    title: 'Servicios',
     icon: 'img:vectors/clean4.svg',
     link: '/services'
   },
   {
-    title: 'Categories',
+    title: 'Categorias',
     icon: 'img:vectors/categorie1.svg',
     link: '/categories'
   },
   {
-    title: 'Customers',
+    title: 'Clientes',
     icon: 'img:vectors/cora2.svg',
     link: '/customers'
   },
   {
-    title: 'Specialist',
+    title: 'Especialistas',
     icon: 'img:vectors/specialist1.svg',
     link: '/specialist'
   },
@@ -152,15 +152,15 @@ export default {
     },
     async confirmLogout () {
       this.$q.dialog({
-        title: 'confirmation!',
-        message: 'you want to close your session?',
+        title: 'Confirmacion!',
+        message: 'Esta seguro que desea cerrar la sesion?',
         cancel: {
           label: 'No',
           outline: true
         },
         persistent: true,
         ok: {
-          label: 'Yes',
+          label: 'Si',
           color: 'negative'
         }
       }).onOk(() => {

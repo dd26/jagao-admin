@@ -14,7 +14,7 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Add Category</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar categoria</div>
       </div>
 
       <div class="row q-px-lg">
@@ -57,7 +57,7 @@
             <div class="col-12">
               <q-input
                 v-model="form.name"
-                placeholder="Category name"
+                placeholder="Nombre Categoria"
                 dense
                 outlined
                 bg-color="white"
@@ -73,7 +73,7 @@
           <q-btn
             @click="!id ? saveTwo() : save()"
             color="primary"
-            label="Add"
+            label="Agregar"
             dense
             outlined
             class="col-12"

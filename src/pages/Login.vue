@@ -3,10 +3,10 @@
     <div class="col-5 column justify-center window-height">
       <section class="row q-pa-md q-px-xl justify-center">
         <img src="logos/logo2.svg" alt="logo_jagao" width="150px" height="241px">
-        <div class="col-12 text-center text-primary q-pb-lg" style="font-weight: 700; font-size: 28px;">WELCOME TO JAGAO</div>
+        <div class="col-12 text-center text-primary q-pb-lg" style="font-weight: 700; font-size: 28px;">BIENVENIDO A JAGAO</div>
         <q-input
           v-model="form.email"
-          placeholder="User Name/Email"
+          placeholder="Correo electronico"
           :error="$v.form.email.$error"
           @blur="$v.form.email.$touch()"
           class="col-10 no-border-inputs q-mb-md"
@@ -40,7 +40,7 @@
           @click="signIn"
           class="col-10 q-mt-sm q-py-xs"
           color="primary"
-          label="SIGN IN"
+          label="Iniciar Sesion"
           outlined
           rounded
           dense

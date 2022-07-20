@@ -33,7 +33,7 @@ export default {
   components: { Listable, NewSpecialist, SeeDetail },
   data () {
     return {
-      title: 'Specialist',
+      title: 'Especialistas',
       route: 'specialists',
       btnNewObject: {
         icon: 'add',
@@ -41,10 +41,10 @@ export default {
       },
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'specialists' },
-        { name: 'userName', label: 'Name', field: 'userName', align: 'left' },
-        { name: 'city_id', label: 'City', field: 'city_id', align: 'left' },
-        { name: 'services', label: 'Services', field: 'services', align: 'left' },
-        { name: 'scheduled', label: 'Scheduled', field: 'scheduled', align: 'center', chip: true },
+        { name: 'userName', label: 'Nombre', field: 'userName', align: 'left' },
+        { name: 'city_id', label: 'Ciudad', field: 'city_id', align: 'left' },
+        { name: 'services', label: 'Servicios', field: 'services', align: 'left' },
+        { name: 'scheduled', label: 'Tareas', field: 'scheduled', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,

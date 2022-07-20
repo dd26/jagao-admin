@@ -34,14 +34,14 @@ export default {
   data () {
     return {
       route: 'categories',
-      title: 'Categories',
+      title: 'Categorias',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'
       },
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'categories' },
-        { name: 'name', label: 'Name', sortable: true, field: 'name', align: 'left' },
+        { name: 'name', label: 'Nombre', sortable: true, field: 'name', align: 'left' },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,

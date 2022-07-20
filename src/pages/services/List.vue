@@ -25,7 +25,7 @@ export default {
   components: { Listable, NewService },
   data () {
     return {
-      title: 'Services',
+      title: 'Servicios',
       route: 'services',
       btnNewObject: {
         icon: 'add',
@@ -33,9 +33,9 @@ export default {
       },
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'services' },
-        { name: 'name', label: 'Service', field: 'name', align: 'left' },
-        { name: 'price', label: 'Price', field: 'price', align: 'left' },
-        { name: 'category_id', label: 'Category', field: 'category_id', align: 'center', chip: true },
+        { name: 'name', label: 'Servicio', field: 'name', align: 'left' },
+        { name: 'price', label: 'Precio', field: 'price', align: 'left' },
+        { name: 'category_id', label: 'Categoria', field: 'category_id', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,

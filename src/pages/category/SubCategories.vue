@@ -34,17 +34,17 @@ export default {
   data () {
     return {
       route: 'subcategories',
-      title: 'Sub-Categories',
+      title: 'Sub-Categorias',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'
       },
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'subcategories' },
-        { name: 'name', label: 'Name', sortable: true, field: 'name', align: 'left' },
-        { name: 'description', label: 'Description', sortable: true, field: 'description', align: 'left' },
-        { name: 'category_name', label: 'Category name', sortable: true, field: 'category_name', align: 'left' },
-        { name: 'has_document', label: 'Required document', sortable: true, field: row => row.has_document === 1 ? 'YES' : 'NO', align: 'center', chip: true },
+        { name: 'name', label: 'Nombre', sortable: true, field: 'name', align: 'left' },
+        { name: 'description', label: 'Descripcion', sortable: true, field: 'description', align: 'left' },
+        { name: 'category_name', label: 'Nombre Categoria', sortable: true, field: 'category_name', align: 'left' },
+        { name: 'has_document', label: 'Documento Requerido', sortable: true, field: row => row.has_document === 1 ? 'YES' : 'NO', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,

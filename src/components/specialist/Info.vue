@@ -27,40 +27,40 @@
 
     <q-card-section class="row">
       <div class="col-12 justify-between row text-primary" style="font-weight: 500; font-size: 16px;">
-        <div>Last service: Yesterday</div>
-        <div>Member since: 2022</div>
+        <div>Ultimo Servicio: Yesterday</div>
+        <div>Miembro desde: 2022</div>
       </div>
       <hr class="col-12" style="border-top: 1px solid #00A58D;" />
 
       <section class="col-12 row">
         <div class="col-8 row">
           <div class="col-12 row q-pt-sm">
-            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Fullname:</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Nombre Completo:</div>
             <div class="col-12" style="font-size: 12px; font-weight: 500;">Isabel Summerton</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
-            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Birth Date:</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Fecha de nacimiento:</div>
             <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ formatDate(form.birthDate, 'DD/MM/YYYY') }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
-            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">ID:</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Identificacion:</div>
             <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.identification }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
-            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">City/ Town:</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Ciudad/ Pueblo:</div>
             <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.city_id }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
-            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Adress:</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Direccion:</div>
             <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.address }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
-            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Mail:</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Correo:</div>
             <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.email }}</div>
           </div>
         </div>
@@ -73,7 +73,7 @@
               </div>
               <div class="col-8 row">
                 <section class="row col-12 items-between">
-                  <div class="text-right col-12" style="font-weight: 600; font-size: 10px;">Completed services</div>
+                  <div class="text-right col-12" style="font-weight: 600; font-size: 10px;">Servicios completados</div>
                   <br>
                   <div class="text-right col-12" style="font-size: 24px; font-weight: 600;">15</div>
                 </section>
@@ -86,7 +86,7 @@
               </div>
               <div class="col-8 row">
                 <section class="row col-12 items-between">
-                  <div class="text-right col-12" style="font-weight: 600; font-size: 10px;">Active Services</div>
+                  <div class="text-right col-12" style="font-weight: 600; font-size: 10px;">Servicios Activos</div>
                   <br>
                   <div class="text-right col-12" style="font-size: 24px; font-weight: 600;">0</div>
                 </section>
@@ -99,7 +99,7 @@
               </div>
               <div class="col-8 row">
                 <section class="row col-12 items-center">
-                  <div class="text-primary col-12 text-right">Download CV</div>
+                  <div class="text-primary col-12 text-right">Descargar CV</div>
                 </section>
               </div>
             </q-card>
