@@ -28,7 +28,25 @@
         dense
         :selection="selectedItem ? 'single' : 'none'"
         :selected.sync="selected"
+        :filter="filter"
       >
+
+        <template
+          v-if="isFilter"
+          v-slot:top-left
+        >
+          <q-input
+            borderless
+            dense
+            class="no-border-inputs-listable q-mt-sm"
+            v-model="filter"
+            placeholder="Filtrar"
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
 
         <template v-slot:header-cell="props">
           <q-th :props="props" style="border-bottom: 1px solid #e0e0e0">
@@ -83,7 +101,7 @@
                     color="primary"
                     size="md"
                     no-caps
-                    label="see details"
+                    :label="n.title"
                   />
                 </div>
               </div>
@@ -231,6 +249,10 @@ export default {
     dataList: {
       type: Array,
       default: null
+    },
+    isFilter: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -246,7 +268,8 @@ export default {
       visibleColumns: [],
       columnsView: [],
       deleteId: null,
-      deleteDlg: false
+      deleteDlg: false,
+      filter: null
     }
   },
   async mounted () {

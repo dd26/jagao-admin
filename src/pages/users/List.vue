@@ -6,10 +6,8 @@
         :apiroute="route"
         :title="title"
         :btnNewObject="btnNewObject"
-        :isFilter="true"
         @newRegister="newRegister"
         @openChangeDlg="openChangeDlg"
-        @see-detail="seeDetail"
         ref="listableRef"
       />
     </div>
@@ -17,39 +15,29 @@
     <q-dialog v-model="newDlg">
       <New :id="id" @recordSave="recordSave" />
     </q-dialog>
-
-    <q-dialog v-model="seeDetailDlg">
-      <SeeDetail
-        :id="id"
-      />
-    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import Listable from 'src/components/Listable.vue'
-import New from 'src/components/customers/Form.vue'
-import SeeDetail from 'src/components/customers/Info.vue'
+import New from 'src/components/users/Form.vue'
 export default {
-  components: { Listable, New, SeeDetail },
+  components: { Listable, New },
   data () {
     return {
-      title: 'Clientes',
-      route: 'customers',
+      title: 'Usuarios',
+      route: 'users_admin',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'
       },
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'customers' },
-        { name: 'userName', label: 'Nombre de Usuario', field: 'userName', align: 'left' },
-        { name: 'email', label: 'Correo', field: 'email', align: 'left' },
-        { name: 'identification', label: 'Identificacion', field: 'identification', align: 'left' },
-        { name: 'actions', label: '', field: 'actions' }
+        { name: 'name', label: 'Nombre', field: 'name', align: 'left' },
+        { name: 'email', label: 'Email', field: 'email', align: 'left' },
+        { name: 'actionsNew', label: '', field: 'actionsNew' }
       ],
       newDlg: false,
-      id: null,
-      seeDetailDlg: false
+      id: null
     }
   },
   watch: {
@@ -61,11 +49,6 @@ export default {
     }
   },
   methods: {
-    seeDetail (row) {
-      console.log(row, 'rowww')
-      this.id = row.id
-      this.seeDetailDlg = true
-    },
     newRegister () {
       console.log('newnewRegister')
       this.newDlg = true

@@ -36,6 +36,14 @@ export default async ({ store, Vue }) => {
       })
       localStorage.removeItem('JAGAO_SESSION_INFO')
     }
+
+    if (error.response.status === 402) {
+      console.log(error.response.data, 'error.response.data')
+      Notify.create({
+        message: error.response.data.message ? error.response.data.message : 'Error',
+        color: 'negative'
+      })
+    }
   })
 
   axiosInstance.interceptors.request.use(async function (config) {

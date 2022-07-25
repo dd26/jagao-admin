@@ -1,9 +1,11 @@
 <template>
   <q-item
+    v-if="can(permission)"
     clickable
     :to="link"
     v-ripple
     class="text-primary"
+
   >
     <q-item-section
       v-if="icon"
@@ -19,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'EssentialLink',
   props: {
@@ -44,7 +47,14 @@ export default {
     hasVector: {
       type: Boolean,
       default: true
+    },
+    permission: {
+      type: String,
+      default: ''
     }
+  },
+  computed: {
+    ...mapGetters('generals', ['can'])
   }
 }
 </script>

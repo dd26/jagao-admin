@@ -1,16 +1,11 @@
 /*
 * Se verifica que el usuario puede ver un item determinado según sus permisos guardados en localstorage
 */
-export function can (state) {
+export function can () {
   return permission => {
     const userInfo = JSON.parse(localStorage.getItem('JAGAO_SESSION_INFO'))
-    const per = (userInfo !== null) ? userInfo.permissions.filter(item => { return item === permission }).length : 0
-    // console.log(permission, 'epaaaaaaaaaaa')
-    if (per > 0) {
-      return true
-    } else {
-      return false
-    }
+    const userPermissions = userInfo.permissions.map(permission => permission.slug)
+    return userPermissions.includes(permission)
   }
 }
 

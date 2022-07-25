@@ -16,23 +16,23 @@
         <div style="border: 4px solid white; border-radius: 50%">
           <q-avatar size="90px">
             <img
-              :src="$api_url() + 'image/specialists/' + id"
+              :src="$api_url() + 'image/customers/' + id"
               style="width: 100%; height: 100%;"
             />
           </q-avatar>
         </div>
-        <div class="col-12 text-center q-pt-sm" style="font-size: 16px; font-weight: 700;">{{ form.userName }}</div>
+        <div v-if="form" class="col-12 text-center q-pt-sm" style="font-size: 16px; font-weight: 700;">{{ form.userName }}</div>
       </div>
     </q-card-section>
 
-    <q-card-section class="row">
+    <q-card-section class="row" v-if="form">
       <div class="col-12 justify-between row text-primary" style="font-weight: 500; font-size: 16px;">
         <div>Ultimo Servicio: {{lastServiceDate}}</div>
         <div>Miembro desde: {{memberDate}}</div>
       </div>
       <hr class="col-12" style="border-top: 1px solid #00A58D;" />
 
-      <section class="col-12 row">
+      <section class="col-12 row" v-if="form">
         <div class="col-8 row">
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Nombre Completo:</div>
@@ -51,7 +51,7 @@
 
           <div class="col-12 row q-pt-sm">
             <div class="col-12" style="font-size: 12px; font-weight: 600; color: #B3B3B3">Ciudad/ Pueblo:</div>
-            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.city.name }}</div>
+            <div class="col-12" style="font-size: 12px; font-weight: 500;">{{ form.city_id }}</div>
           </div>
 
           <div class="col-12 row q-pt-sm">
@@ -92,23 +92,6 @@
                 </section>
               </div>
             </q-card>
-
-            <q-card
-              @click="downloadCv"
-              class="bg-accent row text-white q-pa-sm q-px-md q-py-md q-mt-sm cursor-pointer"
-              style="border-radius: 12px;"
-              clickable
-              v-ripple
-            >
-              <div class="col-4 row items-center">
-                <q-icon name="img:vectors/down1.svg" size="lg" />
-              </div>
-              <div class="col-8 row">
-                <section class="row col-12 items-center">
-                  <div class="text-primary col-12 text-right">Descargar CV</div>
-                </section>
-              </div>
-            </q-card>
           </section>
         </div>
       </section>
@@ -120,11 +103,6 @@
 import { date } from 'quasar'
 export default {
   props: ['id'],
-  data () {
-    return {
-      form: {}
-    }
-  },
   computed: {
     memberDate () {
       return date.formatDate(this.form.created_at, 'YYYY')
@@ -143,13 +121,18 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      form: null
+    }
+  },
   mounted () {
     this.getRecord()
   },
   methods: {
     async getRecord () {
       this.$q.loading.show()
-      const res = await this.$api.get(`/specialists/${this.id}`)
+      const res = await this.$api.get(`/customers/${this.id}`)
       this.$q.loading.hide()
       if (res) {
         this.form = res
@@ -157,18 +140,6 @@ export default {
     },
     formatDate (dateFormat, format) {
       return date.formatDate(dateFormat, format)
-    },
-    async downloadCv () {
-      this.$q.loading.show()
-      await this.$api.post(`download_cv/${this.id}`, {}, { responseType: 'blob' }).then(res => {
-        this.$q.loading.hide()
-        const url = window.URL.createObjectURL(new Blob([res]))
-        const link = document.createElement('a')
-        link.href = url
-        link.setAttribute('download', 'cv.pdf')
-        document.body.appendChild(link)
-        link.click()
-      })
     }
   }
 }
