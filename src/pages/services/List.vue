@@ -5,59 +5,44 @@
         :columns="columns"
         :apiroute="route"
         :title="title"
-        :btnNewObject="btnNewObject"
-        @newRegister="newRegister"
-        @openChangeDlg="openChangeDlg"
+        @see-detail="seeDetail"
         ref="listableRef"
       />
     </div>
 
-    <q-dialog v-model="newDlg">
-      <NewService @recordSave="recordSave" :id="id" />
+    <q-dialog v-model="seeDetailDlg">
+      <SeeDetail
+        :id="id"
+      />
     </q-dialog>
   </q-page>
 </template>
 
 <script>
 import Listable from 'src/components/Listable.vue'
-import NewService from 'src/components/services/Form.vue'
+import SeeDetail from 'src/components/services/Info.vue'
 export default {
-  components: { Listable, NewService },
+  components: { Listable, SeeDetail },
   data () {
     return {
       title: 'Servicios',
       route: 'services',
-      btnNewObject: {
-        icon: 'add',
-        action: 'newRegister'
-      },
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'services' },
-        { name: 'name', label: 'Servicio', field: 'name', align: 'left' },
-        { name: 'price', label: 'Precio', field: 'price', align: 'left' },
-        { name: 'category_id', label: 'Categoria', field: 'category_id', align: 'center', chip: true },
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatarTwo: true, folder: 'categories' },
+        { name: 'category_name', label: 'Servicio', field: 'category_name', align: 'left' },
+        { name: 'total', label: 'Precio', field: 'total', align: 'left' },
+        { name: 'addressName', label: 'Direccion', field: 'addressName', align: 'center' },
+        { name: 'stateName', label: 'Estatus', field: 'stateName', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
-      newDlg: false,
-      id: null
+      id: null,
+      seeDetailDlg: false
     }
   },
   methods: {
-    newRegister () {
-      console.log('newnewRegister')
-      this.id = null
-      this.newDlg = true
-    },
-    recordSave () {
-      console.log('recordSave')
-      this.newDlg = false
-      this.id = null
-      this.$refs.listableRef.getRecord()
-    },
-    openChangeDlg (id) {
-      console.log('openChangeDlg', id)
-      this.id = id
-      this.newDlg = true
+    seeDetail (row) {
+      this.id = row.id
+      this.seeDetailDlg = true
     }
   }
 }

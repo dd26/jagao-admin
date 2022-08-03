@@ -36,8 +36,11 @@
             </div>
 
             <div class="col-12 q-pl-xl">
-              <div class="text-primary text-start q-pt-sm" style="font-weight: 700; font-size: 20px;">Isabel Summerton</div>
-              <div class="text-start q-pt-sm" style="font-weight: 500; font-size: 14px; color: #B3B3B3; line-height: 5px;">Isabel Summerton</div>
+              <div class="text-primary text-start q-pt-sm" style="font-weight: 700; font-size: 20px;">{{UserInfo.name}}</div>
+              <div
+                class="text-start q-pt-sm"
+                style="font-weight: 500; font-size: 14px; color: #B3B3B3; line-height: 5px;"
+              > {{UserInfo.role_id === 4 ? 'Usuario de Soporte' : 'Administrador'}} </div>
             </div>
 
             <section class="col-12 row justify-center q-pt-xl">
@@ -66,7 +69,7 @@
               />
               <div class="text-secondary" style="font-weight: 600; font-size: 20px;">Cerrar Sesion</div>
             </div>
-            <div class="col-12 row justify-center q-pt-sm">
+            <!-- <div class="col-12 row justify-center q-pt-sm">
               <div
                 class="col-12 row justify-center items-center q-gutter-x-md"
                 style="position: relative"
@@ -81,7 +84,7 @@
                 />
                 <div class="text-black" style="font-weight: 600; font-size: 20px;">Configuracion</div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </section>
@@ -95,7 +98,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 const linksData = [
   {
     title: 'Inicio',
@@ -116,11 +119,12 @@ const linksData = [
     hasVector: false,
     permission: 'module-users-admin'
   },
-  /* {
+  {
     title: 'Servicios',
     icon: 'img:vectors/clean4.svg',
-    link: '/services'
-  }, */
+    link: '/services',
+    permission: 'module-services-admin'
+  },
   {
     title: 'Categorias',
     icon: 'img:vectors/categorie1.svg',
@@ -155,6 +159,9 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
+  },
+  computed: {
+    ...mapGetters('generals', ['UserInfo'])
   },
   methods: {
     ...mapMutations('generals', ['logout']),

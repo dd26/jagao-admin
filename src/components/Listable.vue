@@ -68,6 +68,11 @@
                 <img :src="`${$api_url()}image/${props.col.folder}/${props.row.id}`" alt="asd">
               </q-avatar>
             </div>
+            <div v-else-if="props.col.avatarTwo">
+              <q-avatar size="lg" class="bg-primary">
+                <img :src="`${$api_url()}image/${props.col.folder}/${props.row.category_id}`" alt="asd">
+              </q-avatar>
+            </div>
             <div v-else class="ellipsis">
               {{props.value}}
             </div>
@@ -281,6 +286,9 @@ export default {
     }
   },
   methods: {
+    changeStatusUserAdm (id, row) {
+      this.$emit('changeStatusUserAdm', id, row)
+    },
     changeStatusCoupon (id, row) {
       this.$emit('changeStatusCoupon', id, row.status)
     },

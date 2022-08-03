@@ -8,6 +8,7 @@
         :btnNewObject="btnNewObject"
         @newRegister="newRegister"
         @openChangeDlg="openChangeDlg"
+        @changeStatusUserAdm="changeStatusUserAdm"
         ref="listableRef"
       />
     </div>
@@ -63,6 +64,9 @@ export default {
       this.newDlg = false
       this.id = null
       this.$refs.listableRef.getRecord()
+    },
+    changeStatusUserAdm (id, row) {
+      console.log('changeStatusUserAdm', id, row)
     }
   }
 }
