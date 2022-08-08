@@ -19,7 +19,7 @@ export default async ({ store, Vue }) => {
             color: 'green-4',
             textColor: 'white',
             icon: 'fas fa-check-circle',
-            message: 'Record saved successfully!'
+            message: 'Guardado correctamente'
           })
         } else {
           localStorage.setItem('JAGAO_SESSION_INFO', JSON.stringify(response))
@@ -31,7 +31,7 @@ export default async ({ store, Vue }) => {
     console.log(error, 'error')
     if (error.response.status === 401) {
       Notify.create({
-        message: 'Incorrect Email and/or Password',
+        message: 'Usuario o contraseña incorrectos',
         color: 'warning'
       })
       localStorage.removeItem('JAGAO_SESSION_INFO')

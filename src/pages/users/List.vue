@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-ma-xl q-pa-xl" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); border-radius: 8px;">
+    <div class="q-pa-xl">
       <Listable
         :columns="columns"
         :apiroute="route"
@@ -26,16 +26,17 @@ export default {
   components: { Listable, New },
   data () {
     return {
-      title: 'Usuarios',
+      title: 'Usuarios de soporte',
       route: 'users_admin',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'
       },
       columns: [
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true, folder: 'users_admin' },
         { name: 'name', label: 'Nombre', field: 'name', align: 'left' },
         { name: 'email', label: 'Email', field: 'email', align: 'left' },
-        { name: 'actionsNew', label: '', field: 'actionsNew' }
+        { name: 'actions', label: '', field: 'actions' }
       ],
       newDlg: false,
       id: null

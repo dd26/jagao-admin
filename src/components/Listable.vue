@@ -1,215 +1,225 @@
 <template>
-  <q-card class="bg-white no-shadow" style="border: none !important">
-    <q-card-section class="row">
-      <div class="text-primary" style="font-weight: 700; font-size: 32px;" v-if="title"> {{ title }} </div>
-      <q-space />
-      <div v-if="btnNewObject">
-        <q-btn
-          icon="add"
-          color="primary"
-          push
-          :to="btnNewObject.route"
-          class="q-px-lg"
-          @click="btnNewObject.action === 'newRegister' ? newRegister() : null"
-        />
-      </div>
-    </q-card-section>
-    <q-separator style="background-color: #e0e0e0;" />
-    <q-card-section class="q-pa-none">
-      <q-table
-        :data="data"
-        :columns="columns"
-        flat
-        hide-bottom
-        row-key="id"
-        ref="tabla_listable"
-        :pagination.sync="pagination"
-        hide-pagination
-        dense
-        :selection="selectedItem ? 'single' : 'none'"
-        :selected.sync="selected"
-        :filter="filter"
-      >
-
-        <template
-          v-if="isFilter"
-          v-slot:top-left
-        >
-          <q-input
-            borderless
+  <section class="row" style="height: 80vh">
+    <section class="col row q-px-sm">
+      <q-card class="bg-white col" style="border: none !important; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); border-radius: 8px;">
+        <q-card-section class="row">
+          <div class="text-primary" style="font-weight: 700; font-size: 32px;" v-if="title"> {{ title }} </div>
+          <q-space />
+          <div v-if="btnNewObject">
+            <q-btn
+              icon="add"
+              color="primary"
+              push
+              :to="btnNewObject.route"
+              class="q-px-lg"
+              @click="btnNewObject.action === 'newRegister' ? newRegister() : null"
+            />
+          </div>
+        </q-card-section>
+        <q-separator style="background-color: #e0e0e0;" />
+        <q-card-section class="q-pa-none">
+          <q-table
+            :data="data"
+            :columns="columns"
+            flat
+            hide-bottom
+            row-key="id"
+            ref="tabla_listable"
+            :pagination.sync="pagination"
+            hide-pagination
             dense
-            class="no-border-inputs-listable q-mt-sm"
-            v-model="filter"
-            placeholder="Filtrar"
+            :selection="selectedItem ? 'single' : 'none'"
+            :selected.sync="selected"
+            :filter="filter"
           >
-            <template v-slot:append>
-              <q-icon name="search" />
+
+            <template
+              v-if="isFilter"
+              v-slot:top-left
+            >
+              <q-input
+                borderless
+                dense
+                class="no-border-inputs-listable q-mt-sm"
+                v-model="filter"
+                placeholder="Filtrar"
+              >
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
             </template>
-          </q-input>
-        </template>
 
-        <template v-slot:header-cell="props">
-          <q-th :props="props" style="border-bottom: 1px solid #e0e0e0">
-            <div class="column justify-center">
-              <div class="text-subtitle2">{{props.col.label}}</div>
-            </div>
-          </q-th>
-        </template>
-
-        <template v-slot:body-cell="props">
-          <q-td :props="props" style="width: auto; max-width: 100px; border-bottom: 1px solid #e0e0e0; height: 60px">
-            <div v-if="props.col.chip" style="width:100%" class="row justify-center">
-              <div class="style-chip text-bold row justify-center items-center">
-                {{ props.value }}
-              </div>
-            </div>
-            <div v-else-if="props.col.avatar">
-              <q-avatar size="lg" class="bg-primary">
-                <img :src="`${$api_url()}image/${props.col.folder}/${props.row.id}`" alt="asd">
-              </q-avatar>
-            </div>
-            <div v-else-if="props.col.avatarTwo">
-              <q-avatar size="lg" class="bg-primary">
-                <img :src="`${$api_url()}image/${props.col.folder}/${props.row.category_id}`" alt="asd">
-              </q-avatar>
-            </div>
-            <div v-else class="ellipsis">
-              {{props.value}}
-            </div>
-          </q-td>
-        </template>
-
-        <template v-slot:body-cell-actions="props" v-if="checkIfActions">
-          <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
-            <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
-              <div v-for="n in props.row.actions" :key="n.title">
-                <div v-if="!n.seeDetails">
-                  <q-btn
-                    :icon="n.icon"
-                    class="text-black"
-                    dense
-                    flat
-                    rounded
-                    size="11px"
-                    push
-                    :to="n.url ? n.url : null"
-                    @click="execute(n.action, props.row.id, props.row, n)"
-                    :color="n.color ? n.color : 'primary'"
-                  />
+            <template v-slot:header-cell="props">
+              <q-th :props="props" style="border-bottom: 1px solid #e0e0e0">
+                <div class="column justify-center">
+                  <div class="text-subtitle2">{{props.col.label}}</div>
                 </div>
-                <div v-else>
+              </q-th>
+            </template>
+
+            <template v-slot:body-cell="props">
+              <q-td :props="props" style="width: auto; max-width: 100px; border-bottom: 1px solid #e0e0e0; height: 60px">
+                <div v-if="props.col.chip" style="width:100%" class="row justify-center">
+                  <div class="style-chip text-bold row justify-center items-center">
+                    {{ props.value }}
+                  </div>
+                </div>
+                <div v-else-if="props.col.avatar">
+                  <q-avatar size="lg" class="bg-primary">
+                    <img :src="`${$api_url()}image/${props.col.folder}/${props.row.id}`" alt="asd">
+                  </q-avatar>
+                </div>
+                <div v-else-if="props.col.avatarTwo">
+                  <q-avatar size="lg" class="bg-primary">
+                    <img :src="`${$api_url()}image/${props.col.folder}/${props.row.category_id}`" alt="asd">
+                  </q-avatar>
+                </div>
+                <div v-else class="ellipsis">
+                  {{props.value}}
+                </div>
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-actions="props" v-if="checkIfActions">
+              <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
+                <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
+                  <div v-for="n in props.row.actions" :key="n.title">
+                    <div v-if="!n.seeDetails">
+                      <q-btn
+                        :icon="n.icon"
+                        dense
+                        flat
+                        rounded
+                        size="11px"
+                        push
+                        :to="n.url ? n.url : null"
+                        @click="execute(n.action, props.row.id, props.row, n)"
+                        :color="n.color ? n.color : 'primary'"
+                      />
+                    </div>
+                    <div v-else>
+                      <q-btn
+                        @click="execute(n.action, props.row.id, props.row, n)"
+                        flat
+                        rounded
+                        dense
+                        color="primary"
+                        size="md"
+                        no-caps
+                        :label="n.title"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-actionsNew="props" v-if="checkIfActionsNew">
+              <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
+                <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
                   <q-btn
-                    @click="execute(n.action, props.row.id, props.row, n)"
                     flat
                     rounded
                     dense
                     color="primary"
                     size="md"
                     no-caps
-                    :label="n.title"
-                  />
+                    icon="more_vert"
+                  >
+                    <q-menu>
+                      <q-list style="background-color: #D9F2EE;overflow: hidden">
+                        <q-item
+                          @click="execute(n.action, props.row.id, props.row, n)"
+                          v-for="n in props.row.actionsNew"
+                          :key="n.title"
+                          clickable
+                          class="text-primary"
+                          v-ripple
+                        >
+                          <q-item-section>
+                            <q-item-label class="text-bold"> {{ n.title }} </q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
                 </div>
+              </q-td>
+            </template>
+
+          </q-table>
+        </q-card-section>
+        <q-card-section>
+
+          <div class="row q-mt-md justify-center">
+          <q-pagination
+            v-model="pagination.page"
+            color="primary"
+            :max="pagesNumber"
+            size="sm"
+            direction-links
+            boundary-links
+            icon-first="skip_previous"
+            icon-last="skip_next"
+            icon-prev="fast_rewind"
+            icon-next="fast_forward"
+            active-color="primary"
+            active-text-color="white"
+          />
+        </div>
+        </q-card-section>
+
+        <q-dialog v-model="deleteDlg">
+          <q-card class="row justify-center q-pa-xl">
+            <div class="row justify-center col-12">
+              <div class="q-pa-sm" style="border-radius: 50%; background-color: #D16A6A;">
+                <q-icon name="img:vectors/trash2.svg" size="md" />
               </div>
             </div>
-          </q-td>
-        </template>
 
-        <template v-slot:body-cell-actionsNew="props" v-if="checkIfActionsNew">
-          <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
-            <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
-              <q-btn
-                flat
-                rounded
-                dense
-                color="primary"
-                size="md"
-                no-caps
-                icon="more_vert"
-              >
-                <q-menu>
-                  <q-list style="background-color: #D9F2EE;overflow: hidden">
-                    <q-item
-                      @click="execute(n.action, props.row.id, props.row, n)"
-                      v-for="n in props.row.actionsNew"
-                      :key="n.title"
-                      clickable
-                      class="text-primary"
-                      v-ripple
-                    >
-                      <q-item-section>
-                        <q-item-label class="text-bold"> {{ n.title }} </q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
+            <div class="row col-12 text-center justify-center" style="font-size: 28px; font-weight: 700;">
+              Are you sure?
             </div>
-          </q-td>
-        </template>
 
-      </q-table>
-    </q-card-section>
-    <q-card-section>
+            <div class="row col-12 text-center justify-center">
+              Lorem ipsum dolor sit amet
+            </div>
 
-      <div class="row q-mt-md justify-center">
-      <q-pagination
-        v-model="pagination.page"
-        color="primary"
-        :max="pagesNumber"
-        size="sm"
-        direction-links
-        boundary-links
-        icon-first="skip_previous"
-        icon-last="skip_next"
-        icon-prev="fast_rewind"
-        icon-next="fast_forward"
-        active-color="primary"
-        active-text-color="white"
-      />
-    </div>
-    </q-card-section>
-
-    <q-dialog v-model="deleteDlg">
-      <q-card class="row justify-center q-pa-xl">
-        <div class="row justify-center col-12">
-          <div class="q-pa-sm" style="border-radius: 50%; background-color: #D16A6A;">
-            <q-icon name="img:vectors/trash2.svg" size="md" />
-          </div>
-        </div>
-
-        <div class="row col-12 text-center justify-center" style="font-size: 28px; font-weight: 700;">
-          Are you sure?
-        </div>
-
-        <div class="row col-12 text-center justify-center">
-          Lorem ipsum dolor sit amet
-        </div>
-
-        <div class="row justify-around col-12 q-pt-md">
-          <div class="col-5">
-            <q-btn
-              color="grey-5"
-              label="Cancel"
-              rounded
-              v-close-popup
-              no-caps
-              class="full-width"
-            />
-          </div>
-          <div class="col-5">
-            <q-btn
-              style="background-color: #D16A6A; color: white"
-              label="Delete"
-              rounded
-              no-caps
-              class="full-width"
-              @click="confirmDelete"
-            />
-          </div>
-        </div>
+            <div class="row justify-around col-12 q-pt-md">
+              <div class="col-5">
+                <q-btn
+                  color="grey-5"
+                  label="Cancel"
+                  rounded
+                  v-close-popup
+                  no-caps
+                  class="full-width"
+                />
+              </div>
+              <div class="col-5">
+                <q-btn
+                  style="background-color: #D16A6A; color: white"
+                  label="Delete"
+                  rounded
+                  no-caps
+                  class="full-width"
+                  @click="confirmDelete"
+                />
+              </div>
+            </div>
+          </q-card>
+        </q-dialog>
       </q-card>
-    </q-dialog>
-  </q-card>
+    </section>
+    <section class="q-px-sm column" style="min-width: 350px;">
+      <q-card class="q-px-md col-12" style="box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.12); border-radius: 8px;">
+        <q-card-section>
+          s
+        </q-card-section>
+      </q-card>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -330,7 +340,7 @@ export default {
         if (res) {
           this.getRecord()
           this.$q.notify({
-            message: 'Removed successfully!',
+            message: 'Eliminado correctamente',
             color: 'positive'
           })
         }
