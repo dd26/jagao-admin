@@ -32,15 +32,18 @@
       <hr class="col-12" style="border-top: 1px solid #00A58D;" />
 
       <section class="col-12 row" style="position: relative">
-        <user-card
-          v-bind="form.user"
-          :rating="form.rating"
-        />
-        <user-card
-          v-if="form.employee"
-          v-bind="form.employee"
-          :rating="form.rating"
-        />
+        <section style="background-color: #D9F2EE; border-radius: 12px" class="q-pa-sm">
+          <user-card
+            v-bind="form.user"
+            :rating="form.rating"
+          />
+        </section>
+        <section style="background-color: #D9F2EE; border-radius: 12px" class="q-pa-sm" v-if="form.employee">
+          <user-card
+            v-bind="form.employee"
+            :rating="form.rating"
+          />
+        </section>
 
         <section class="row items-end" style="position: absolute; bottom: 0; right: 0; width: 175px;">
           <section class="bg-primary row items-center justify-center col-12 q-pa-md" style="height: 70px; border-radius: 12px">

@@ -9,12 +9,49 @@
             <q-btn
               icon="add"
               color="primary"
-              push
+              unelevated
+              dense
+              style="border-radius: 8px; height: 35px; width: 100px"
               :to="btnNewObject.route"
               class="q-px-lg"
               @click="btnNewObject.action === 'newRegister' ? newRegister() : null"
             />
           </div>
+        </q-card-section>
+
+        <q-card-section v-if="!isFilter">
+          <section class="row">
+            <div class="col-12 row section-filter items-center">
+              <section class="row items-center q-px-md cursor-pointer">
+                <div class="q-pl-sm" style="color: #B3B3B3">Filtros</div>
+                <q-icon
+                  name="img:vectors/arrow1.svg"
+                  class="q-ml-sm"
+                />
+              </section>
+              <q-separator vertical class="q-my-sm" style="background-color: #e0e0e0;" />
+              <section class="row col-9 q-pl-md" style="min-width: 300px">
+                <q-input
+                  v-model="filter"
+                  placeholder="Buscar"
+                  class="col-12"
+                  borderless
+                  clearable
+                  @keyup.enter="search"
+                  dense
+                >
+                  <q-icon
+                    name="bi-search"
+                    class="q-ml-sm bg-primary q-pa-sm q-ma-xs"
+                    slot="prepend"
+                    size="xs"
+                    color="white"
+                    style="border-radius: 100%;"
+                  />
+                </q-input>
+              </section>
+            </div>
+          </section>
         </q-card-section>
         <q-separator style="background-color: #e0e0e0;" />
         <q-card-section class="q-pa-none">
@@ -32,23 +69,6 @@
             :selected.sync="selected"
             :filter="filter"
           >
-
-            <template
-              v-if="isFilter"
-              v-slot:top-left
-            >
-              <q-input
-                borderless
-                dense
-                class="no-border-inputs-listable q-mt-sm"
-                v-model="filter"
-                placeholder="Filtrar"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </template>
 
             <template v-slot:header-cell="props">
               <q-th :props="props" style="border-bottom: 1px solid #e0e0e0">
@@ -85,7 +105,13 @@
               <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
                 <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
                   <div v-for="n in props.row.actions" :key="n.title">
-                    <div v-if="!n.seeDetails">
+                    <div v-if="n.type && n.type === 'toggle'">
+                      <q-toggle
+                        :value="props.row.status ? true : false"
+                        @input="execute(n.action, props.row.id, props.row, n)"
+                      />
+                    </div>
+                    <div v-else-if="!n.seeDetails">
                       <q-btn
                         :icon="n.icon"
                         dense
@@ -210,13 +236,6 @@
             </div>
           </q-card>
         </q-dialog>
-      </q-card>
-    </section>
-    <section class="q-px-sm column" style="min-width: 350px;">
-      <q-card class="q-px-md col-12" style="box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.12); border-radius: 8px;">
-        <q-card-section>
-          s
-        </q-card-section>
       </q-card>
     </section>
   </section>
@@ -351,6 +370,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.section-filter {
+  background-color: #D9F2EE;
+  height: 40px;
+  border-radius: 8px;
+}
 
 .style-chip {
   background-color: $primary;

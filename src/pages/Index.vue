@@ -2,11 +2,10 @@
   <q-page class="row">
     <section class="col-8 q-pa-lg">
       <Listable
-        :columns="columns"
-        :apiroute="route"
-        :title="title"
-        :dataList="dataPrueba"
-      />
+      :columns="columns"
+      :apiroute="route"
+      :title="title"
+    />
     </section>
     <section class="col-4 row q-pa-md">
       <div class="col-12 q-gutter-y-lg">
@@ -58,7 +57,7 @@
         <q-card class="col-12 list-styled-specialist q-px-md q-pt-lg row">
           <div class="col-12">
             <div class="row">
-              <div class="text-primary col-12" style="font-size: 32px; font-weight: 700;">Espeialistas</div>
+              <div class="text-primary col-12" style="font-size: 32px; font-weight: 700;">Especialistas</div>
               <hr style="border-top: 1px solid #C4C4C4" class="col-12">
               <div class="col-12 row" style="font-size: 14px; font-weight: 500;">
                 <div class="col-6 text-center">Nombre</div>
@@ -101,17 +100,11 @@ export default {
     return {
       title: 'Servicios',
       route: 'services',
-      dataPrueba: [
-        { name: 'Jhon Doe Summerton', date: '01/01/2022', location: 'Non-Street - Lorem ipsum Dolor' },
-        { name: 'Jhon Doe Summerton', date: '01/01/2022', location: 'Non-Street - Lorem ipsum Dolor' },
-        { name: 'Jhon Doe Summerton', date: '01/01/2022', location: 'Non-Street - Lorem ipsum Dolor' },
-        { name: 'Jhon Doe Summerton', date: '01/01/2022', location: 'Non-Street - Lorem ipsum Dolor' }
-      ],
       columns: [
-        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatar: true },
-        { name: 'name', label: 'Nombre', field: 'name', align: 'left' },
-        { name: 'date', label: 'Fecha', field: 'date', align: 'left' },
-        { name: 'location', label: 'Localizacion', field: 'location', align: 'center' }
+        { name: 'avatar', label: '', align: 'center', field: 'avatar', avatarTwo: true, folder: 'categories' },
+        { name: 'category_name', label: 'Nombre', field: 'category_name', align: 'left' },
+        { name: 'date', label: 'Fecha', field: row => row.date_request ? row.date_request : this.$formatDate(row.created_at, 'DD/MM/YYYY'), align: 'left' },
+        { name: 'addressName', label: 'Localizacion', field: 'addressName', align: 'center' }
       ],
       specialists: []
     }

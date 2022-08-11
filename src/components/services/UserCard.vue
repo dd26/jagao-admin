@@ -1,6 +1,6 @@
 <template>
   <section class="row">
-    <div class="col-12">
+    <div class="col-12 row justify-center">
       <q-avatar size="65px">
         <img
           :src="$api_url() + `image/${folder}/${idImage}`"

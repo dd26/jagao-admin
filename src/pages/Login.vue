@@ -88,8 +88,15 @@ export default {
       await this.$api.post('login', this.form).then(res => {
         this.$q.loading.hide()
         if (res) {
-          this.login(res)
-          this.$router.push('/home')
+          if (res.status === 1) {
+            this.login(res)
+            this.$router.push('/home')
+          } else {
+            this.$q.notify({
+              color: 'negative',
+              message: 'Usuario temporalmente deshabilitado, contacte al administrador'
+            })
+          }
         }
       })
     }

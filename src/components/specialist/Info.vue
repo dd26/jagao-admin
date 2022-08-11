@@ -109,6 +109,24 @@
                 </section>
               </div>
             </q-card>
+
+            <q-card
+              @click="verified"
+              class="bg-positive row text-white q-pa-sm q-px-md q-py-md q-mt-sm cursor-pointer"
+              style="border-radius: 12px;"
+              clickable
+              v-ripple
+              v-if="!form.user.verified"
+            >
+              <div class="col-4 row items-center">
+                <q-icon name="bi-person-check-fill" size="lg" />
+              </div>
+              <div class="col-8 row">
+                <section class="row col-12 items-center">
+                  <div class="text-primary col-12 text-right text-white text-bold">Verificar Especialista</div>
+                </section>
+              </div>
+            </q-card>
           </section>
         </div>
       </section>
@@ -147,6 +165,19 @@ export default {
     this.getRecord()
   },
   methods: {
+    async verified () {
+      this.$q.loading.show()
+      await this.$api.put('users/verified/user/' + this.form.user.id).then(res => {
+        if (res) {
+          this.$q.loading.hide()
+          this.$q.notify({
+            color: 'positive',
+            message: 'Especialista verificado correctamente'
+          })
+          this.getRecord()
+        }
+      })
+    },
     async getRecord () {
       this.$q.loading.show()
       const res = await this.$api.get(`/specialists/${this.id}`)

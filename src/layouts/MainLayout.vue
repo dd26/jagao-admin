@@ -147,7 +147,7 @@ const linksData = [
     title: 'Cupones',
     icon: 'img:vectors/cupon1.svg',
     link: '/coupons',
-    permission: 'module-coupons-admin'
+    permission: 'module-cupons-admin'
   }
 ]
 

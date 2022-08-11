@@ -1,17 +1,15 @@
 <template>
-  <q-page>
-    <div class="q-ma-xl q-pa-xl" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); border-radius: 8px;">
-      <Listable
-        :columns="columns"
-        :apiroute="route"
-        :title="title"
-        :btnNewObject="btnNewObject"
-        @newRegister="newRegister"
-        @see-detail="seeDetail"
-        @openChangeDlg="openChangeDlg"
-        ref="listableRef"
-      />
-    </div>
+  <q-page class="q-pa-xl">
+    <Listable
+      :columns="columns"
+      :apiroute="route"
+      :title="title"
+      :btnNewObject="btnNewObject"
+      @newRegister="newRegister"
+      @see-detail="seeDetail"
+      @openChangeDlg="openChangeDlg"
+      ref="listableRef"
+    />
 
     <q-dialog v-model="newDlg">
       <NewSpecialist :id="id" @recordSave="recordSave" />

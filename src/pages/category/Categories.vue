@@ -1,20 +1,15 @@
 <template>
-  <div>
-    <div
-      class="q-ma-xl q-pa-xl"
-      style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); border-radius: 8px;"
-    >
-      <listable
-        :apiroute="route"
-        :columns="columns"
-        :title="title"
-        :btnNewObject="btnNewObject"
-        @newRegister="newRegister"
-        @openChangeDlg="openChangeDlg"
-        @deleteRecord="deleteRecord"
-        ref="listableRef"
-      />
-    </div>
+  <div class="q-pa-xl">
+    <listable
+      :apiroute="route"
+      :columns="columns"
+      :title="title"
+      :btnNewObject="btnNewObject"
+      @newRegister="newRegister"
+      @openChangeDlg="openChangeDlg"
+      @deleteRecord="deleteRecord"
+      ref="listableRef"
+    />
 
     <q-dialog v-model="newDlg">
       <category
