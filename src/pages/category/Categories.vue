@@ -8,6 +8,7 @@
       @newRegister="newRegister"
       @openChangeDlg="openChangeDlg"
       @deleteRecord="deleteRecord"
+      @changeStatus="changeStatus"
       ref="listableRef"
     />
 
@@ -68,6 +69,12 @@ export default {
     recordSave () {
       this.newDlg = false
       this.id = null
+      this.$refs.listableRef.getRecord()
+    },
+    async changeStatus (id) {
+      this.$q.loading.show()
+      await this.$api.put('/categories/' + id + '/status_change')
+      this.$q.loading.hide()
       this.$refs.listableRef.getRecord()
     }
   }

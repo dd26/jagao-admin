@@ -9,23 +9,23 @@
     </div>
     <div class="col-12 q-pt-sm" style="font-size:10px; font-weight: 600; color: #B3B3B3;">{{roleName}}</div>
 
-    <section class="column q-gutter-y-xs">
-      <section class="column q-pt-xs">
+    <section class="row q-gutter-y-xs">
+      <section class="column q-pt-xs col-12">
         <div class="text-bold text-primary" style="line-height: 10px;font-weight: 700; font-size: 16px;">{{name}}</div>
         <hr class="full-width" style="border-top: 1px solid #00A58D;" />
       </section>
 
-      <section class="column q-pt-xs">
+      <section class="column q-pt-xs col-12">
         <div style="line-height:10px; font-weight: 600; font-size: 12px;color:#B3B3B3">Nombre de Usuario:</div>
         <div style="font-weight: 700; font-size: 16px;color:#5C5C5C">{{form.userName}}</div>
       </section>
 
-      <section class="column q-pt-xs">
+      <section class="column q-pt-xs col-12">
         <div style="line-height:10px; font-weight: 600; font-size: 12px;color:#B3B3B3">Identificacion:</div>
         <div style="font-weight: 700; font-size: 16px;color:#5C5C5C">{{form.identification}}</div>
       </section>
 
-      <section class="column q-pt-xs">
+      <section class="column q-pt-xs col-12">
         <div style="line-height:10px; font-weight: 600; font-size: 12px;color:#B3B3B3">Telefono:</div>
         <div style="font-weight: 700; font-size: 16px;color:#5C5C5C">{{form.phone}}</div>
       </section>

@@ -1,5 +1,5 @@
 <template>
-  <q-card style="min-width: 700px; border-radius: 12px" class="bg-primary">
+  <q-card style="min-width: 750px; border-radius: 12px" class="bg-primary">
     <q-card-section class="bg-primary text-white row">
       <div class="col-12 row justify-end">
         <q-btn
@@ -31,14 +31,14 @@
       </div>
       <hr class="col-12" style="border-top: 1px solid #00A58D;" />
 
-      <section class="col-12 row" style="position: relative">
-        <section style="background-color: #D9F2EE; border-radius: 12px" class="q-pa-sm">
+      <section class="col-12 row q-gutter-x-sm" style="position: relative">
+        <section style="background-color: #D9F2EE; border-radius: 12px; max-width: 230px" class="q-pa-sm">
           <user-card
             v-bind="form.user"
             :rating="form.rating"
           />
         </section>
-        <section style="background-color: #D9F2EE; border-radius: 12px" class="q-pa-sm" v-if="form.employee">
+        <section style="background-color: #D9F2EE; border-radius: 12px; max-width: 230px" class="q-pa-sm" v-if="form.employee">
           <user-card
             v-bind="form.employee"
             :rating="form.rating"

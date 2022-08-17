@@ -95,6 +95,15 @@
                     <img :src="`${$api_url()}image/${props.col.folder}/${props.row.category_id}`" alt="asd">
                   </q-avatar>
                 </div>
+                <div v-else-if="props.col.rating">
+                  <q-rating
+                    :value="countRating(props.value)"
+                    dense
+                    size="sm"
+                    color="yellow"
+                    readonly
+                  />
+                </div>
                 <div v-else class="ellipsis">
                   {{props.value}}
                 </div>
@@ -315,6 +324,17 @@ export default {
     }
   },
   methods: {
+    countRating (ratings) {
+      if (ratings.length > 0) {
+        let count = 0
+        ratings.forEach((element) => {
+          count += element.rating
+        })
+        return count / 2
+      } else {
+        return 0
+      }
+    },
     changeStatusUserAdm (id, row) {
       this.$emit('changeStatusUserAdm', id, row)
     },
@@ -341,8 +361,12 @@ export default {
     },
     execute (name, id, row, action) {
       console.log(name, 'name', id, 'id', row, 'row', action, 'action')
-      if (typeof this[name] === 'function') {
-        this[name](id, row, action)
+      if (!action.vueEmit) {
+        if (typeof this[name] === 'function') {
+          this[name](id, row, action)
+        }
+      } else {
+        this.$emit(action.action, id, row, action)
       }
     },
     delete (id) {

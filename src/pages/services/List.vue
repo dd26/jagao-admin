@@ -31,6 +31,7 @@ export default {
         { name: 'total', label: 'Precio', field: 'total', align: 'left' },
         { name: 'addressName', label: 'Direccion', field: 'addressName', align: 'center' },
         { name: 'stateName', label: 'Estatus', field: 'stateName', align: 'center', chip: true },
+        { name: 'rating', label: 'Calificacion', field: 'rating', align: 'center', rating: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
       id: null,
