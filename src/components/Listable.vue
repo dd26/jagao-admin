@@ -28,6 +28,22 @@
                   name="img:vectors/arrow1.svg"
                   class="q-ml-sm"
                 />
+                <q-menu v-if="columnsFilter">
+                  <q-list style="background-color: #D9F2EE;overflow: hidden; min-width: 150px">
+                    <q-item
+                      @click="filterColumn(n)"
+                      v-for="n in columnsFilter"
+                      :key="n.title"
+                      clickable
+                      class="text-primary"
+                      v-ripple
+                    >
+                      <q-item-section>
+                        <q-item-label class="text-bold"> {{ n.title }} </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
               </section>
               <q-separator vertical class="q-my-sm" style="background-color: #e0e0e0;" />
               <section class="row col-9 q-pl-md" style="min-width: 300px">
@@ -56,7 +72,7 @@
         <q-separator style="background-color: #e0e0e0;" />
         <q-card-section class="q-pa-none">
           <q-table
-            :data="data"
+            :data="dataFilter"
             :columns="columns"
             flat
             hide-bottom
@@ -296,6 +312,10 @@ export default {
     isFilter: {
       type: Boolean,
       default: false
+    },
+    columnsFilter: {
+      type: Array,
+      default: null
     }
   },
   data () {
@@ -307,12 +327,14 @@ export default {
         rowsPerPage: 25
       },
       data: [],
+      dataFilter: [],
       selected: [],
       visibleColumns: [],
       columnsView: [],
       deleteId: null,
       deleteDlg: false,
-      filter: null
+      filter: null,
+      columnsFilterSelect: []
     }
   },
   async mounted () {
@@ -324,6 +346,20 @@ export default {
     }
   },
   methods: {
+    filterColumn (column) {
+      // buscar si la columna esta en el array de columnas a filtrar
+      const index = this.columnsFilterSelect.findIndex((element) => element.id === column.id)
+      if (index === -1) {
+        this.columnsFilterSelect.push(column)
+      } else {
+        this.columnsFilterSelect.splice(index, 1)
+      }
+      this.$emit('filterColumnFn', this.columnsFilterSelect)
+    },
+    filterColumnFn (data) {
+      console.log(data, 'data')
+      this.dataFilter = data
+    },
     countRating (ratings) {
       if (ratings.length > 0) {
         let count = 0
@@ -356,6 +392,7 @@ export default {
         this.$q.loading.hide()
         if (res) {
           this.data = res
+          this.dataFilter = res
         }
       })
     },

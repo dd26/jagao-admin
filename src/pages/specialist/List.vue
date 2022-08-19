@@ -8,6 +8,8 @@
       @newRegister="newRegister"
       @see-detail="seeDetail"
       @openChangeDlg="openChangeDlg"
+      :columnsFilter="columnsFilter"
+      @filterColumnFn="filterColumnFn"
       ref="listableRef"
     />
 
@@ -45,7 +47,11 @@ export default {
       ],
       newDlg: false,
       seeDetailDlg: false,
-      id: null
+      id: null,
+      columnsFilter: [
+        { title: 'Verificados', field: 'verified', defaultValue: 1, id: 1 },
+        { title: 'No verificados', field: 'verified', defaultValue: 0, id: 2 }
+      ]
     }
   },
   watch: {
@@ -63,6 +69,10 @@ export default {
     }
   },
   methods: {
+    filterColumnFn (columnsFilterSelect) {
+      console.log(columnsFilterSelect, 'column list')
+      this.$refs.listableRef.filterColumnFn([])
+    },
     seeDetail (row) {
       console.log('see details general', row)
       this.seeDetailDlg = true
