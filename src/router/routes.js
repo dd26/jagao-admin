@@ -4,6 +4,7 @@ const routes = [
     path: '/login',
     component: () => import('pages/Login.vue')
   },
+  { path: '/recuperate', component: () => import('pages/recuperate-password/Form.vue') },
   {
     path: '/home',
     component: () => import('layouts/MainLayout.vue'),

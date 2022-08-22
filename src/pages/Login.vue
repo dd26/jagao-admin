@@ -37,6 +37,15 @@
         </q-input>
 
         <q-btn
+          @click="recuperatePassDlg = true"
+          label="¿Olvidaste tu contraseña?"
+          flat
+          style="color: #838383; font-size: 14px; font-weight: 400; text-decoration: underline;"
+          no-caps
+          dense
+        />
+
+        <q-btn
           @click="signIn"
           class="col-10 q-mt-sm q-py-xs"
           color="primary"
@@ -53,17 +62,26 @@
       <div class="container-img col-12">
       </div>
     </div>
+
+    <q-dialog v-model="recuperatePassDlg">
+      <recuperate-password />
+    </q-dialog>
   </section>
 </template>
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import RecuperatePassword from '../components/recuperate-password/Form.vue'
 import { mapMutations } from 'vuex'
 export default {
+  components: {
+    RecuperatePassword
+  },
   data () {
     return {
       form: {},
-      isPwd: true
+      isPwd: true,
+      recuperatePassDlg: false
     }
   },
   validations () {
