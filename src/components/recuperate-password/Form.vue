@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       form: {
-        email: 'denilsson.d.sousa@gmail.com'
+        email: ''
       }
     }
   },
@@ -49,7 +49,7 @@ export default {
             color: 'positive',
             message: 'Se envio un correo para recuperar la contraseña'
           })
-          this.$router.push('/reset-password')
+          this.$router.push('/recuperate')
         } else if (res && res.error) {
           this.$q.notify({
             color: 'negative',

@@ -91,9 +91,23 @@ export default {
   },
   methods: {
     async changePassword () {
-      this.$api.post('recuperate_pass').then(res => {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+
+      await this.$api.post('change_password', this.form).then(res => {
         if (res && !res.error) {
-          // this.$router.push('/login')
+          this.$q.notify({
+            color: 'positive',
+            message: 'Se actualizo su contraseña'
+          })
+          this.$router.push('/login')
+        } else {
+          this.$q.notify({
+            color: 'negative',
+            message: res.error
+          })
         }
       })
     }
