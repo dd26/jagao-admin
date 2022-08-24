@@ -43,7 +43,11 @@ export default {
     async submit () {
       this.$v.$touch()
       if (this.$v.$invalid) return
+      this.$q.loading.show({
+        message: 'Sending email...'
+      })
       await this.$api.post('recuperate_pass', this.form).then(res => {
+        this.$q.loading.hide()
         if (res && !res.error) {
           this.$q.notify({
             color: 'positive',
