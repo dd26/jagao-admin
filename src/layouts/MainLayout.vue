@@ -99,7 +99,8 @@
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
 import { mapGetters, mapMutations } from 'vuex'
-const linksData = [
+import { moduleAdmin, moduleSoporte } from '../boot/roleModule'
+/* const linksData = [
   {
     title: 'Inicio',
     icon: 'img:vectors/home4.svg',
@@ -149,19 +150,21 @@ const linksData = [
     link: '/coupons',
     permission: 'module-cupons-admin'
   }
-]
+] */
 
 export default {
   name: 'MainLayout',
   components: { EssentialLink },
   data () {
     return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
+      leftDrawerOpen: false
     }
   },
   computed: {
-    ...mapGetters('generals', ['UserInfo'])
+    ...mapGetters('generals', ['UserInfo']),
+    essentialLinks () {
+      return this.UserInfo.role_id === 4 ? moduleSoporte : moduleAdmin
+    }
   },
   methods: {
     ...mapMutations('generals', ['logout']),

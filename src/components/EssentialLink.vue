@@ -1,6 +1,5 @@
 <template>
   <q-item
-    v-if="can(permission)"
     clickable
     :to="link"
     v-ripple
