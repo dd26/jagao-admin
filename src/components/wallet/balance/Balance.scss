@@ -1,0 +1,23 @@
+
+// colores var
+$verdoso: #D9F2EE;
+
+//color textos
+$color-texto-1: #B3B3B3;
+
+.balance-container {
+  background-color: $verdoso;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+.text-balance {
+  font-size: 18px;
+  color: $color-texto-1;
+  font-weight: 400;
+}
+
+.text-balance-amount {
+  font-size: 28px;
+  font-weight: 700;
+}

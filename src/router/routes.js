@@ -15,7 +15,8 @@ const routes = [
       { path: '/customers', component: () => import('pages/customers/List.vue') },
       { path: '/coupons', component: () => import('pages/coupons/List.vue') },
       { path: '/categories', component: () => import('pages/category/index.js') },
-      { path: '/users', component: () => import('pages/users/List.vue') }
+      { path: '/users', component: () => import('pages/users/List.vue') },
+      { path: '/wallet', component: () => import('pages/wallet/Form.vue') }
     ]
   },
   {

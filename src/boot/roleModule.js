@@ -37,6 +37,11 @@ const moduleAdmin = [
     permission: 'module-specialist-admin'
   },
   {
+    title: 'Wallet',
+    icon: 'img:vectors/wallet2.svg',
+    link: '/wallet'
+  },
+  {
     title: 'Cupones',
     icon: 'img:vectors/cupon1.svg',
     link: '/coupons',
