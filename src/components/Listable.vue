@@ -40,9 +40,9 @@
                       v-for="n in columnsFilter"
                       :key="n.title"
                       clickable
-                      class="text-primary"
                       :style="{
                         backgroundColor: checkColumn(n) ? '#B3B3B3' : '#D9F2EE',
+                        color: checkColumn(n) ? '#FFF' : '#00A58D'
                       }"
                       v-ripple
                     >
