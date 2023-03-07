@@ -23,19 +23,27 @@
           <section class="row">
             <div class="col-12 row section-filter items-center">
               <section class="row items-center q-px-md cursor-pointer">
-                <div class="q-pl-sm" style="color: #B3B3B3">Filtros</div>
+                <div
+                  class="q-pl-sm"
+                  style="color: #B3B3B3"
+                >Filtros</div>
                 <q-icon
                   name="img:vectors/arrow1.svg"
                   class="q-ml-sm"
                 />
                 <q-menu v-if="columnsFilter">
-                  <q-list style="background-color: #D9F2EE;overflow: hidden; min-width: 150px">
+                  <q-list
+                    style="background-color: #D9F2EE;overflow: hidden; min-width: 150px"
+                  >
                     <q-item
                       @click="filterColumn(n)"
                       v-for="n in columnsFilter"
                       :key="n.title"
                       clickable
                       class="text-primary"
+                      :style="{
+                        backgroundColor: checkColumn(n) ? '#B3B3B3' : '#D9F2EE',
+                      }"
                       v-ripple
                     >
                       <q-item-section>
@@ -316,6 +324,10 @@ export default {
     columnsFilter: {
       type: Array,
       default: null
+    },
+    uniqueColumnFilter: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -346,15 +358,41 @@ export default {
     }
   },
   methods: {
-    filterColumn (column) {
-      // buscar si la columna esta en el array de columnas a filtrar
+    // metodo para buscar en las columnas seleccionadas
+    // y devolver true o false si esta seleccionada para asi mostrar de color
+    // el icono de la columna para identificar que esta seleccionada
+    checkColumn (column) {
       const index = this.columnsFilterSelect.findIndex((element) => element.id === column.id)
       if (index === -1) {
-        this.columnsFilterSelect.push(column)
+        return false
       } else {
-        this.columnsFilterSelect.splice(index, 1)
+        return true
       }
-      this.$emit('filterColumnFn', this.columnsFilterSelect)
+    },
+    filterColumn (column) {
+      // buscar si la columna esta en el array de columnas a filtrar
+      if (!this.uniqueColumnFilter) {
+        const index = this.columnsFilterSelect.findIndex((element) => element.id === column.id)
+        if (index === -1) {
+          this.columnsFilterSelect.push(column)
+        } else {
+          this.columnsFilterSelect.splice(index, 1)
+        }
+      } else {
+        // si ya esta seleccionada la columna, se elimina del array
+        // siempre y cuando la que esta seleccionada sea diferente a la que se esta clickeando
+        if (this.columnsFilterSelect.length > 0) {
+          if (this.columnsFilterSelect[0].id !== column.id) {
+            this.columnsFilterSelect = []
+            this.columnsFilterSelect.push(column)
+          } else {
+            this.columnsFilterSelect = []
+          }
+        } else {
+          this.columnsFilterSelect.push(column)
+        }
+      }
+      this.$emit('filterColumnFn', this.columnsFilterSelect, this.data)
     },
     filterColumnFn (data) {
       console.log(data, 'data')

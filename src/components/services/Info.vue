@@ -25,7 +25,11 @@
       </div>
     </q-card-section>
     <q-card-section class="bg-white row">
-      <div class="col-12 justify-between row text-primary" style="font-weight: 700; font-size: 16px;">
+      <div
+        v-if="form"
+        class="col-12 justify-between row text-primary"
+        style="font-weight: 700; font-size: 16px;"
+      >
         <div>REF: #{{form.id}} </div>
         <div>Fecha: {{createdService}} </div>
       </div>
@@ -34,12 +38,14 @@
       <section class="col-12 row q-gutter-x-sm" style="position: relative">
         <section style="background-color: #D9F2EE; border-radius: 12px; max-width: 230px" class="q-pa-sm">
           <user-card
+            v-if="form"
             v-bind="form.user"
             :rating="form.rating"
           />
         </section>
-        <section style="background-color: #D9F2EE; border-radius: 12px; max-width: 230px" class="q-pa-sm" v-if="form.employee">
+        <section style="background-color: #D9F2EE; border-radius: 12px; max-width: 230px" class="q-pa-sm" v-if="form && form.employee">
           <user-card
+            v-if="form"
             v-bind="form.employee"
             :rating="form.rating"
           />
@@ -59,6 +65,7 @@
         <section class="col-12 row">
           <section class="q-px-xs col-6 column">
             <section
+              v-if="form"
               class="q-pa-md"
               style="background-color: #D9F2EE; border-radius: 12px"
             >
@@ -74,7 +81,7 @@
               class="q-pa-md"
               style="background-color: #D9F2EE; border-radius: 12px"
             >
-              <section class="col-12 row justify-between items-center" v-if="form.discount">
+              <section class="col-12 row justify-between items-center" v-if="form && form.discount">
                 <div style="color: #5C5C5C; font-weight: 700; font-size: 16px">Amount <br>(- Comision)</div>
                 <div class="text-primary" style="color: #5C5C5C; font-weight: 700; font-size: 25px">{{form.total}}$ - {{form.discount_amount}}$</div>
               </section>
@@ -92,7 +99,10 @@
               class="col-12 row q-pa-md"
             >
               <div class="text-bold text-primary text-h6">Observaciones</div>
-              <div class="col-12">{{form.observations}}</div>
+              <div
+                v-if="form && form.observations"
+                class="col-12"
+              >{{form.observations}}</div>
             </section>
           </section>
         </section>
@@ -119,12 +129,14 @@ export default {
       return date.formatDate(this.form.created_at, 'DD/MM/YYYY')
     },
     totalAmount () {
-      if (this.form.discount) {
+      if (this.form && this.form.discount) {
         return this.form.total - this.form.discount_amount
       }
-      return this.form.total
+      return this.form && this.form.total ? this.form.total : 0
     },
     statusName () {
+      if (!this.form) return 'Pendiente'
+
       switch (this.form.state) {
         case 0:
           return 'Pendiente'

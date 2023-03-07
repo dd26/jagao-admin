@@ -9,6 +9,7 @@
       @see-detail="seeDetail"
       @openChangeDlg="openChangeDlg"
       :columnsFilter="columnsFilter"
+      unique-column-filter
       @filterColumnFn="filterColumnFn"
       ref="listableRef"
     />
@@ -69,9 +70,31 @@ export default {
     }
   },
   methods: {
-    filterColumnFn (columnsFilterSelect) {
-      console.log(columnsFilterSelect, 'column list')
-      this.$refs.listableRef.filterColumnFn([])
+    filterColumnFn (columnsFilterSelect, dataListable) {
+      console.log(columnsFilterSelect, 'columnsFilterSelect')
+      // voy a recorrer el array de columnas seleccionadas y filtrar el array de datos dataListable
+      // por cada columna seleccionada
+      // si no hay columnas seleccionadas, entonces regreso el array de datos dataListable
+      let dataFiltered = []
+      if (columnsFilterSelect.length === 0) {
+        dataFiltered = dataListable
+      }
+
+      columnsFilterSelect.forEach((column) => {
+        if (column.field === 'verified') {
+          if (column.defaultValue === 1) {
+            dataFiltered = dataListable.filter((item) => {
+              return item.verified === 1
+            })
+          } else {
+            dataFiltered = dataListable.filter((item) => {
+              return item.verified === 0
+            })
+          }
+        }
+      })
+
+      this.$refs.listableRef.filterColumnFn(dataFiltered)
     },
     seeDetail (row) {
       console.log('see details general', row)
