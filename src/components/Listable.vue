@@ -22,7 +22,10 @@
         <q-card-section v-if="!isFilter">
           <section class="row">
             <div class="col-12 row section-filter items-center">
-              <section class="row items-center q-px-md cursor-pointer">
+              <section
+                class="row items-center q-px-md cursor-pointer"
+                @click="onClickFilter"
+              >
                 <div
                   class="q-pl-sm"
                   style="color: #B3B3B3"
@@ -31,7 +34,7 @@
                   name="img:vectors/arrow1.svg"
                   class="q-ml-sm"
                 />
-                <q-menu v-if="columnsFilter">
+                <q-menu v-if="columnsFilter && !btnFilter">
                   <q-list
                     style="background-color: #D9F2EE;overflow: hidden; min-width: 150px"
                   >
@@ -275,6 +278,7 @@
 </template>
 
 <script>
+// import { date } from 'quasar'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -328,6 +332,10 @@ export default {
     uniqueColumnFilter: {
       type: Boolean,
       default: false
+    },
+    btnFilter: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -353,11 +361,58 @@ export default {
     if (this.dataList) {
       this.data = this.dataList
     } else {
-      // this.data = []
       await this.getRecord()
     }
   },
   methods: {
+    avanzedFilter (columnFilter) {
+      console.log(columnFilter)
+      // filtrar por los campos que recibo
+      // se recibe por ejemplo [{ column: 'category_id', value: 1 }]
+      // entonces tengo que buscar en la columna category_id si tiene el valor 1
+      // y si lo tiene devolver true
+      // y retonar el array con los elementos que cumplan con la condicion
+      if (columnFilter.length === 0) {
+        this.dataFilter = this.data
+        return
+      }
+
+      // necesito hacer un filtro por cada columna que recibo
+      // ejemplo [{ column: 'category_id', value: 1 }, { column: 'name', value: 'hola' }]
+      // entonces tengo que buscar en la columna category_id si tiene el valor 1
+      // y si lo tiene devolver true y a su vez como son dos columnas tengo que buscar
+      // al primer filtro que se hizo se le tiene que aplicar el segundo filtro
+      // y asi sucesivamente si hay mas de dos columnas
+      // para retornar la data que sea igual al cada filtro
+      // y asi devolver la data que cumpla con todos los filtros
+      const dataFilter = []
+      this.data.forEach((element) => {
+        let count = 0
+        columnFilter.forEach((column) => {
+          // debo ver si la columna tiene el type === date
+          // si es asi debo convertir el valor de la columna a date
+          if (column.type === 'date') {
+            const date = new Date(element[column.column])
+            const dateFilter = new Date(column.value)
+            if (date.getDate() === dateFilter.getDate() && date.getMonth() === dateFilter.getMonth() && date.getFullYear() === dateFilter.getFullYear()) {
+              count++
+            }
+          } else if (element[column.column] === column.value) {
+            count++
+          }
+        })
+        if (count === columnFilter.length) {
+          dataFilter.push(element)
+        }
+      })
+      this.dataFilter = dataFilter
+
+
+      console.log(this.dataFilter)
+    },
+    onClickFilter () {
+      this.$emit('onClickFilter')
+    },
     // metodo para buscar en las columnas seleccionadas
     // y devolver true o false si esta seleccionada para asi mostrar de color
     // el icono de la columna para identificar que esta seleccionada

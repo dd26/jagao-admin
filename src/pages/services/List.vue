@@ -1,10 +1,12 @@
 <template>
   <q-page class="q-pa-xl">
     <Listable
+      v-model="data"
       :columns="columns"
       :apiroute="route"
       :title="title"
       @see-detail="seeDetail"
+      @onClickFilter="onClickFilter"
       ref="listableRef"
     />
 
@@ -13,14 +15,23 @@
         :id="id"
       />
     </q-dialog>
+
+    <q-dialog
+      v-model="filterDlg"
+    >
+      <FiltersService
+        @filter="filter"
+      />
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import Listable from 'src/components/Listable.vue'
+import FiltersService from 'src/components/services/FiltersService.vue'
 import SeeDetail from 'src/components/services/Info.vue'
 export default {
-  components: { Listable, SeeDetail },
+  components: { Listable, SeeDetail, FiltersService },
   data () {
     return {
       title: 'Servicios',
@@ -35,13 +46,37 @@ export default {
         { name: 'actions', label: '', field: 'actions' }
       ],
       id: null,
-      seeDetailDlg: false
+      seeDetailDlg: false,
+      filterDlg: false,
+      data: []
     }
   },
   methods: {
+    onClickFilter () {
+      this.filterDlg = true
+      console.log('click filter')
+    },
     seeDetail (row) {
       this.id = row.id
       this.seeDetailDlg = true
+    },
+    filter (form) {
+      console.log('filter', form)
+      const columnFilter = []
+      if (form.status >= 0 && form.status !== 'all') {
+        console.log('status', form.status)
+        columnFilter.push({ column: 'state', value: form.status })
+      }
+
+      if (form.category && form.category !== 'all') {
+        columnFilter.push({ column: 'category_id', value: form.category })
+      }
+
+      if (form.date) {
+        columnFilter.push({ column: 'created_at', value: form.date, type: 'date' })
+      }
+
+      this.$refs.listableRef.avanzedFilter(columnFilter)
     }
   }
 }
