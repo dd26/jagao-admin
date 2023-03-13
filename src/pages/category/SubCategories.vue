@@ -9,6 +9,9 @@
       @openChangeDlg="openChangeDlg"
       ref="listableRefSubCategories"
       @deleteRecord="deleteRecord"
+      @filterColumnFn="filterColumnFn"
+      :columnsFilter="columnsFilter"
+      unique-column-filter
     />
 
     <q-dialog v-model="newDlg">
@@ -42,6 +45,10 @@ export default {
         { name: 'has_document', label: 'Documento Requerido', sortable: true, field: row => row.has_document === 1 ? 'YES' : 'NO', align: 'center', chip: true },
         { name: 'actions', label: '', field: 'actions' }
       ],
+      columnsFilter: [
+        { title: 'Documento Requerido', field: 'has_document', defaultValue: 1, id: 1 },
+        { title: 'Documento No Requerido', field: 'has_document', defaultValue: 0, id: 2 }
+      ],
       newDlg: false,
       id: null
     }
@@ -55,6 +62,32 @@ export default {
     }
   },
   methods: {
+    filterColumnFn (columnsFilterSelect, dataListable) {
+      console.log(columnsFilterSelect, 'columnsFilterSelect')
+      // voy a recorrer el array de columnas seleccionadas y filtrar el array de datos dataListable
+      // por cada columna seleccionada
+      // si no hay columnas seleccionadas, entonces regreso el array de datos dataListable
+      let dataFiltered = []
+      if (columnsFilterSelect.length === 0) {
+        dataFiltered = dataListable
+      }
+
+      columnsFilterSelect.forEach((column) => {
+        if (column.field === 'has_document') {
+          if (column.defaultValue === 1) {
+            dataFiltered = dataListable.filter((item) => {
+              return item.has_document === 1
+            })
+          } else {
+            dataFiltered = dataListable.filter((item) => {
+              return item.has_document === 0
+            })
+          }
+        }
+      })
+
+      this.$refs.listableRefSubCategories.filterColumnFn(dataFiltered)
+    },
     updateData () {
       this.$refs.listableRefSubCategories.getRecord()
     },
