@@ -44,7 +44,7 @@
                       :key="n.title"
                       clickable
                       :style="{
-                        backgroundColor: checkColumn(n) ? '#B3B3B3' : '#D9F2EE',
+                        backgroundColor: checkColumn(n) ? '#00A58D' : '#D9F2EE',
                         color: checkColumn(n) ? '#FFF' : '#00A58D'
                       }"
                       v-ripple
