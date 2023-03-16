@@ -141,7 +141,19 @@
               <q-td :props="props" class="row justify-center" style="border-bottom: 1px solid #e0e0e0; height: 60px">
                 <div class="row no-wrap q-gutter-x-xs justify-around full-width items-center">
                   <div v-for="n in props.row.actions" :key="n.title">
-                    <div v-if="n.type && n.type === 'toggle'">
+                    <div v-if="n.type && n.type === 'toggleDynamic'">
+                      <q-toggle
+                        :value="n.value === 1 ? true : false"
+                        @input="execute(n.action, props.row.id, props.row, n)"
+                      >
+                        <q-tooltip
+                          v-if="n.tooltip"
+                        >
+                          {{ n.title }}
+                        </q-tooltip>
+                      </q-toggle>
+                    </div>
+                    <div v-else-if="n.type && n.type === 'toggle'">
                       <q-toggle
                         :value="props.row.status ? true : false"
                         @input="execute(n.action, props.row.id, props.row, n)"

@@ -8,6 +8,7 @@
       @newRegister="newRegister"
       @see-detail="seeDetail"
       @openChangeDlg="openChangeDlg"
+      @changeStatusDynamic="changeStatusDynamic"
       :columnsFilter="columnsFilter"
       unique-column-filter
       @filterColumnFn="filterColumnFn"
@@ -115,7 +116,25 @@ export default {
     newRegister () {
       console.log('newnewRegister')
       this.newDlg = true
-    }
+    },
+    changeStatusDynamic (id, row, action) {
+      console.log(action.field, 'changeStatusDynamic')
+      this.$q.dialog({
+        title: 'Confirmación',
+        message: '¿Está seguro de cambiar el estado?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$api.put(`/specialists/status/blocked/${row.user.id}`, {
+          isBlocked: row.user.isBlocked === 1 ? 0 : 1
+        }).then((response) => {
+          console.log(response, 'response.data')
+          this.$refs.listableRef.getRecord()
+        })
+      }).onCancel(() => {
+        console.log('Cancel')
+      })
+    },
   }
 }
 </script>
