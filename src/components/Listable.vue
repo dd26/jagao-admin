@@ -419,7 +419,6 @@ export default {
       })
       this.dataFilter = dataFilter
 
-
       console.log(this.dataFilter)
     },
     onClickFilter () {

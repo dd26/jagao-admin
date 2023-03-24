@@ -3,7 +3,10 @@
     <div class="text-h6 text-primary text-bold"> {{title}} </div>
 
     <section class="row q-pt-xl">
-      <section class="col-5 row">
+      <section
+        class="row col-xs-12"
+        style="max-width: 360px; width: 100%;"
+      >
 
         <section class="col-12 row">
           <balance class="col-12" />
@@ -11,7 +14,7 @@
 
       </section>
 
-      <section class="col-7 row q-px-lg">
+      <section class="col row q-px-lg">
 
         <section class="col-12 row">
           <section class="row col-12 items-center">
@@ -39,8 +42,25 @@
           </section>
 
           <section class="q-pt-lg col-12 row justify-center">
-            <movements class="col-6" />
-            <movements class="col-6" />
+            <div
+              class="col-6 q-px-xs"
+            >
+              <movements
+                :columns="tableColumns"
+                tableTitle="Ingresos"
+                :rowData="tableData"
+                titleColor="#7DBA47"
+              />
+            </div>
+            <div
+              class="col-6 q-px-xs"
+            >
+              <movements
+                :columns="tableColumns"
+                tableTitle="Egresos"
+                titleColor="#EB5757"
+              />
+            </div>
           </section>
         </section>
 
@@ -58,7 +78,13 @@ export default {
   data () {
     return {
       title: 'Wallet',
-      filter: ''
+      filter: '',
+      tableColumns: [
+        { name: 'banco', label: 'Banco', field: 'banco', sortable: true },
+        { name: 'fecha', label: 'Fecha', field: 'fecha', sortable: true },
+        { name: 'valor', label: 'Valor', field: 'valor', sortable: true },
+        { name: 'saldoFinal', label: 'Saldo Final', field: 'saldoFinal', sortable: true }
+      ]
     }
   }
 }
