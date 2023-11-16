@@ -30,7 +30,7 @@ export default {
   data () {
     return {
       route: 'categories',
-      title: 'Categorias',
+      title: 'Categorias de sevicios',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'

@@ -14,13 +14,16 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar Sub-Categoria</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">
+          <span v-if="id">Editar Servicio</span>
+          <span v-else>Agregar Servicio</span>
+        </div>
       </div>
 
       <div class="row q-px-lg">
-        <section class="row col-12 items-center q-pa-lg">
-          <div class="col-6 row">
-            <section class="col-12 row items-center justify-center styled-avatar">
+        <section class="row col-12 q-pa-lg">
+          <div class="col-12 row items-center justify-center">
+            <section class="row items-center justify-center styled-avatar">
               <div class="styled-border row justify-center items-center">
                 <q-icon
                   v-if="!image && !id"
@@ -51,13 +54,51 @@
                   />
                 </div>
               </div>
+          </section>
+          </div>
+          <div class="col-12 q-pt-md  row items-center justify-center">
+            <q-select
+                  v-model="form.category_id"
+                  label="Categoría"
+                  dense
+                  outlined
+                  bg-color="white"
+                  class="col-12"
+                  :options="opCategories"
+                  option-value="id"
+                  option-label="name"
+                  map-options
+                  emit-value
+                  :error="$v.form.category_id.$error"
+                  @blur="$v.form.category_id.$touch"
+                />
+          </div>
+
+          <div class="col-6 q-pt-md row">
+            <section>
+              <div class="col-12">
+                <q-input
+                  v-model.number="form.price"
+                  placeholder="Precio"
+                  dense
+                  :min="0"
+                  type="number"
+                  outlined
+                  bg-color="white"
+                  class="full-width"
+                  :error="$v.form.price.$error"
+                  @blur="$v.form.price.$touch"
+                />
+              </div>
             </section>
           </div>
-          <div class="col-6 row">
+
+          <div class="col-6 q-pl-md q-pt-md row">
+
             <div class="col-12">
               <q-input
                 v-model="form.name"
-                placeholder="Nombre Sub-Categoria"
+                placeholder="Nombre del servicio"
                 dense
                 outlined
                 bg-color="white"
@@ -66,10 +107,13 @@
                 @blur="$v.form.name.$touch"
               />
             </div>
-            <div class="col-12 row">
+          </div>
+
+          <div class="col-12 q-pt-md row items-center justify-center">
+            <div class="col-12">
               <q-input
                 v-model="form.description"
-                placeholder="Descripcion"
+                placeholder="Descripción"
                 dense
                 outlined
                 bg-color="white"
@@ -77,57 +121,106 @@
                 type="textarea"
               />
             </div>
-
-            <div class="col-12 row q-pt-md">
-              <q-select
-                v-model="form.category_id"
-                label="Categoria"
-                dense
-                outlined
-                bg-color="white"
-                class="col-12"
-                :options="opCategories"
-                option-value="id"
-                option-label="name"
-                map-options
-                emit-value
-                :error="$v.form.category_id.$error"
-                @blur="$v.form.category_id.$touch"
-              />
-            </div>
-
-            <div class="col-12">
-              <q-input
-                v-model.number="form.price"
-                placeholder="Precio"
-                dense
-                type="number"
-                outlined
-                bg-color="white"
-                class="full-width"
-                :error="$v.form.price.$error"
-                @blur="$v.form.price.$touch"
-              />
-            </div>
-
-            <div class="col-12 row q-pt-md">
-              <q-checkbox
-                v-model="form.hasDocument"
-                dense
-                label="¿Necesitas documentación?"
-                keep-color
-                color="primary"
-                class="text-primary"
-              />
-            </div>
           </div>
+
+          <div class="col-12  q-pt-md">
+            <section>
+
+              <div class="col-12 row">
+                  <q-checkbox
+                    v-model="form.has_document"
+                    dense
+                    label="¿Necesitas documentación?"
+                    keep-color
+                    color="primary"
+                    class="text-primary"
+                  />
+
+              </div>
+
+              <div class="col-12 q-pt-md row items-center" >
+
+                <span :class="typeComisionColor">Tipo de comisión:</span>
+                <q-option-group
+                  :options="optionsComisionType"
+                  type="radio"
+                  v-model="form.comision_is_porcentage"
+                  inline
+                  :class="typeComisionColor"
+                  :error="$v.form.comision_is_porcentage.$error"
+                  @blur="$v.form.comision_is_porcentage.$touch"
+                  @input="showComisionInputs"
+                />
+              </div>
+            </section>
+          </div>
+          <div class="col-12 row" v-if="showComisionSlider == false">
+                <div class="col-6 q-pt-md">
+                  <q-input
+                    v-model.number="form.comision_app"
+                    placeholder="Comisión de la Aplicación"
+                    dense
+                    type="number"
+                    :min="0"
+                    outlined
+                    bg-color="white"
+                    class="full-width"
+                    :error="$v.form.comision_app.$error"
+                    @blur="$v.form.comision_app.$touch"
+                  />
+                </div>
+                <div class="col-6 q-pt-md q-pl-md">
+                  <q-input
+                    v-model.number="form.comision_espcialist"
+                    placeholder="Comisión del especialista"
+                    dense
+                    type="number"
+                    :min="0"
+                    outlined
+                    bg-color="white"
+                    class="full-width"
+                    :error="$v.form.comision_espcialist.$error"
+                    @blur="$v.form.comision_espcialist.$touch"
+                  />
+                </div>
+              </div>
+              <div class="col-12 row" style="padding-top: 22px;" v-if="showComisionSlider == true">
+                <div class="col-6 q-pr-md">
+                  <q-slider
+                    v-model="form.comision_app"
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                    label
+                    :label-value="'Comisión de app '+form.comision_app + ' %'"
+                    label-always
+                    color="primary"
+                    @change="changeComision"
+                  />
+                </div>
+
+                <div class="col-6  q-pl-md">
+                  <q-slider
+                    v-model="form.comision_espcialist"
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                    label
+                    :label-value="'Comisión del especialista '+form.comision_espcialist + ' %'"
+                    label-always
+                    color="primary"
+                    @change="changeComisionApp"
+                  />
+                </div>
+              </div>
+
         </section>
 
         <div class="col-12 q-px-lg q-pt-lg row q-pb-lg">
           <q-btn
-            @click="!id ? saveTwo() : save()"
+            @click="saveForm"
             color="primary"
-            label="Agregar"
+            :label="!id ? 'Agregar':'Editar'"
             dense
             outlined
             class="col-12"
@@ -153,25 +246,45 @@ export default {
       form: {
         name: null,
         description: '',
-        hasDocument: false,
+        has_document: false,
+        comision_is_porcentage: null,
         category_id: null,
-        price: 0
+        price: null,
+        comision_app: null,
+        comision_espcialist: null
       },
       image: null,
       imageUrl: null,
-      opCategories: []
+      opCategories: [],
+      showComisionSlider: null,
+      typeComisionColor: 'text-primary',
+      optionsComisionType: [
+        { label: 'Porcentaje', value: true },
+        { label: 'Absoluta', value: false }
+      ]
     }
   },
   validations: {
     form: {
       name: { required },
       category_id: { required },
-      price: { required, minValue: minValue(0) }
+      price: { required, minValue: minValue(0) },
+      comision_is_porcentage: { required },
+      comision_app: { required, minValue: minValue(0) },
+      comision_espcialist: { required, minValue: minValue(0) }
     }
   },
-  mounted () {
+  async mounted () {
     if (this.id) {
       this.imageUrl = this.$api_url() + 'image/subcategories/' + this.id
+      await this.$api.get(`${this.route}/${this.id}`).then(res => {
+        this.form = res
+        if (this.form.comision_is_porcentage) {
+          this.showComisionSlider = true
+        } else {
+          this.showComisionSlider = false
+        }
+      })
     }
     this.getCategories()
   },
@@ -215,8 +328,11 @@ export default {
       formData.append('name', this.form.name)
       formData.append('description', this.form.description)
       formData.append('has_document', this.form.hasDocument ? 1 : 0)
+      formData.append('comision_is_porcentage', this.form.comision_is_porcentage ? 1 : 0)
       formData.append('category_id', this.form.category_id)
       formData.append('price', this.form.price)
+      formData.append('comision_app', this.form.comision_app)
+      formData.append('comision_espcialist', this.form.comision_espcialist)
       formData.append('image', this.image)
       this.$q.loading.show()
       await this.$api.post(this.route, formData, {
@@ -237,6 +353,39 @@ export default {
       }).catch((err) => {
         console.log(err, 'error')
       })
+    },
+    changeComision () {
+      this.form.comision_espcialist = 100 - this.form.comision_app
+    },
+    changeComisionApp () {
+      this.form.comision_app = 100 - this.form.comision_espcialist
+    },
+    showComisionInputs (value, evt) {
+      this.typeComisionColor = 'text-primary'
+      if (this.showComisionSlider === null) {
+        this.form.comision_app = 0
+        this.form.comision_espcialist = 100
+      }
+      if (this.form.comision_is_porcentage) {
+        this.form.comision_app = 0
+        this.form.comision_espcialist = 100
+        this.showComisionSlider = true
+      } else {
+        this.form.comision_app = null
+        this.form.comision_espcialist = null
+        this.showComisionSlider = false
+      }
+    },
+    saveForm () {
+      this.save()
+      this.checkComisionIsPorcentage()
+    },
+    checkComisionIsPorcentage () {
+      if (this.$v.form.comision_is_porcentage.$error) {
+        this.typeComisionColor = 'text-negative'
+      } else {
+        this.typeComisionColor = 'text-primary'
+      }
     }
   }
 }
@@ -264,4 +413,19 @@ export default {
   right: 0px;
 }
 
+.description-field {
+  height: 112px;
+}
+
+.category-top{
+  padding-top: 20px;
+}
+
+:deep(.q-textarea.q-field--dense .q-field__control, .q-textarea.q-field--dense .q-field__native){
+  height: 112px
+}
+
+:deep(.q-field--with-bottom){
+  padding-bottom: 0px;
+}
 </style>

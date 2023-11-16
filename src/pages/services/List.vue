@@ -34,7 +34,7 @@ export default {
   components: { Listable, SeeDetail, FiltersService },
   data () {
     return {
-      title: 'Servicios',
+      title: 'Servicios contratados',
       route: 'services',
       columns: [
         { name: 'avatar', label: '', align: 'center', field: 'avatar', avatarTwo: true, folder: 'categories' },

@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       route: 'subcategories',
-      title: 'Sub-Categorias',
+      title: 'Servicios',
       btnNewObject: {
         icon: 'add',
         action: 'newRegister'

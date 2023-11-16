@@ -13,13 +13,13 @@ const moduleAdmin = [
     permission: 'module-users-admin'
   },
   {
-    title: 'Servicios',
+    title: 'Servicios contratados',
     icon: 'img:vectors/clean4.svg',
     link: '/services',
     permission: 'module-services-admin'
   },
   {
-    title: 'Categorias',
+    title: 'Servicios',
     icon: 'img:vectors/categorie1.svg',
     link: '/categories',
     permission: 'module-categories-admin'
@@ -64,13 +64,13 @@ const moduleSoporte = [
     permission: 'module-users-admin'
   },
   {
-    title: 'Servicios',
+    title: 'Servicios contratados',
     icon: 'img:vectors/clean4.svg',
     link: '/services',
     permission: 'module-services-admin'
   },
   {
-    title: 'Categorias',
+    title: 'Servicios',
     icon: 'img:vectors/categorie1.svg',
     link: '/categories',
     permission: 'module-categories-admin'

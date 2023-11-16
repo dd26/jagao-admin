@@ -14,7 +14,7 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar categoria</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar categoria de servicio</div>
       </div>
 
       <div class="row q-px-lg">

@@ -72,6 +72,9 @@ export const FormMixin = {
             }
           })
         }
+      } else {
+        console.log(this.$v.form.comision_is_porcentage.$error)
+        console.log(this.$v.form.$error)
       }
     }
   },
