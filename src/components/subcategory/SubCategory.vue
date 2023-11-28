@@ -293,6 +293,7 @@ export default {
       this.$api.get('categories').then(res => {
         if (res) {
           this.opCategories = res
+          this.opCategories = this.opCategories.filter(item => item.is_parent !== true)
         }
       })
     },

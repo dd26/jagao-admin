@@ -14,7 +14,10 @@
       </div>
 
       <div class="q-px-xl row">
-        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">Agregar categoria de servicio</div>
+        <div class="col-12 text-center text-primary q-pt-md" style="font-size: 28px; font-weight: 700;">
+          <span v-if="!id">Agregar categoria de servicio</span>
+          <span v-else>Editar categoria de servicio</span>
+        </div>
       </div>
 
       <div class="row q-px-lg">
@@ -66,6 +69,22 @@
                 @blur="$v.form.name.$touch"
               />
             </div>
+            <div v-if="showSelectCategories()"
+              class="col-12 q-pt-md  row items-center justify-center">
+              <q-select
+                    v-model="form.parent_id"
+                    label="Categoría"
+                    dense
+                    outlined
+                    bg-color="white"
+                    class="col-12"
+                    :options="categories"
+                    option-value="id"
+                    option-label="name"
+                    map-options
+                    emit-value
+                  />
+            </div>
           </div>
         </section>
 
@@ -73,7 +92,7 @@
           <q-btn
             @click="!id ? saveTwo() : save()"
             color="primary"
-            label="Agregar"
+            :label="!id ? 'Agregar':'Editar'"
             dense
             outlined
             class="col-12"
@@ -97,10 +116,17 @@ export default {
     return {
       route: 'categories',
       form: {
-        name: null
+        name: null,
+        parent_id: null
       },
       image: null,
-      imageUrl: null
+      imageUrl: null,
+      opCategories: [],
+      categories: [],
+      category: {
+        name: null,
+        is_parent: true
+      }
     }
   },
   validations: {
@@ -108,12 +134,49 @@ export default {
       name: { required }
     }
   },
-  mounted () {
+  async mounted () {
     if (this.id) {
       this.imageUrl = this.$api_url() + 'image/categories/' + this.id
+      await this.getCategory()
     }
+    await this.getCategories()
   },
   methods: {
+    getCategory () {
+      this.$api.get('categories/' + this.id).then(res => {
+        if (res) {
+          this.category = res
+          console.log(this.category)
+        }
+      })
+    },
+    getCategories () {
+      this.$api.get('categories').then(res => {
+        if (res) {
+          this.opCategories = res
+          this.opCategories.unshift({
+            id: null,
+            name: 'Sin categoría padre',
+            isParent: null
+          })
+          if (this.id) {
+            this.categories = this.opCategories.filter(item => item.id !== this.id)
+          }
+          this.categories = this.opCategories.filter(item => item.is_child !== true)
+        }
+      })
+    },
+    showSelectCategories () {
+      if (!this.id) {
+        return true
+      } else {
+        if (this.category.is_parent) {
+          return false
+        } else {
+          return true
+        }
+      }
+    },
     onFileInput () {
       this.imageUrl = URL.createObjectURL(this.image)
       if (this.id) {
@@ -144,6 +207,7 @@ export default {
       }
       const formData = new FormData()
       formData.append('name', this.form.name)
+      formData.append('parent_id', this.form.parent_id)
       formData.append('image', this.image)
       this.$q.loading.show()
       await this.$api.post(this.route, formData, {
